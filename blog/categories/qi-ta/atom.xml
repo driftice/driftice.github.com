@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[路边飞的博客]]></title>
-  <link href="http://driftice.github.io/atom.xml" rel="self"/>
+  <title><![CDATA[Category: 其他 | 路边飞的博客]]></title>
+  <link href="http://driftice.github.io/blog/categories/qi-ta/atom.xml" rel="self"/>
   <link href="http://driftice.github.io/"/>
   <updated>2013-06-24T15:49:43+08:00</updated>
   <id>http://driftice.github.io/</id>
