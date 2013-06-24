@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: 
+
+Sitemap: http://driftice.github.io/sitemap.xml 
