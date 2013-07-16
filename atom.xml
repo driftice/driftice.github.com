@@ -4,7 +4,7 @@
   <title><![CDATA[路边飞的博客]]></title>
   <link href="http://driftice.github.io/atom.xml" rel="self"/>
   <link href="http://driftice.github.io/"/>
-  <updated>2013-07-16T17:47:27+08:00</updated>
+  <updated>2013-07-16T17:49:33+08:00</updated>
   <id>http://driftice.github.io/</id>
   <author>
     <name><![CDATA[路边飞]]></name>
@@ -177,11 +177,11 @@ if (security != null) {
 
 <p>签名过程：</p>
 
-<p><img src="http://driftice.github.io/images/jvm_code_signer_enc.PNG"></p>
+<p><img src="http://driftice.github.io/images/jvm_code_signer_enc.png"></p>
 
 <p>验证签名过程：</p>
 
-<p><img src="http://driftice.github.io/images/jvm_code_signer_dec.PNG"></p>
+<p><img src="http://driftice.github.io/images/jvm_code_signer_dec.png"></p>
 
 <ol>
 <li>认证</li>
