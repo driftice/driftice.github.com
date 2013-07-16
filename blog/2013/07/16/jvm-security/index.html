@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>路边飞的博客</title>
+  <title>JVM安全-笔记 - 路边飞的博客</title>
   <meta name="author" content="路边飞">
 
   
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://driftice.github.io">
+  <link rel="canonical" href="http://driftice.github.io/blog/2013/07/16/jvm-security">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="路边飞的博客" type="application/atom+xml">
@@ -75,15 +75,12 @@
 </nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article class="hentry" role="article">
   
-  
-  
-    <article>
-      
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2013/07/16/jvm-security/">JVM安全-笔记</a></h1>
+      <h1 class="entry-title">JVM安全-笔记</h1>
     
     
       <p class="meta">
@@ -101,14 +98,14 @@
 
 <time datetime="2013-07-16T10:21:00+08:00" pubdate data-updated="true">Jul 16<span>th</span>, 2013</time>
         
-         | <a href="/blog/2013/07/16/jvm-security/#disqus_thread">Comments</a>
+         | <a href="#disqus_thread">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><h2>为什么需要安全？</h2>
+<div class="entry-content"><h2>为什么需要安全？</h2>
 
 <p>  安全模型使Java 成为网络环境的技术，因为它们建立了对网络移动代码安全执行的必要的可信机制。Java安全模型侧重于保护终端用户免受从网络下载的、来至于不可靠来源的、恶意程序的侵犯。而“沙箱”机制成为了这一目的的支持机制，在“沙箱”中存放不可信的 Java程序。“沙箱”对不可靠的程序的活动进行了限制，程序可以在“沙箱”的安全边界内做任何事，但是不能进行任何跨越这些边界的举动。</p>
 
@@ -346,22 +343,16 @@ if (security != null) {
 </ol>
 
 </div>
-  
-  
 
 
-    </article>
-  
-  
-    <article>
+  <footer>
+    <p class="meta">
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/06/24/how-to-read-a-book/">如何阅读一本书</a></h1>
-    
-    
-      <p class="meta">
-        
+  
+
+<span class="byline author vcard">Posted by <span class="fn">路边飞</span></span>
+
+      
 
 
 
@@ -373,376 +364,44 @@ if (security != null) {
   
 
 
-<time datetime="2013-06-24T15:12:00+08:00" pubdate data-updated="true">Jun 24<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/06/24/how-to-read-a-book/#disqus_thread">Comments</a>
-        
-      </p>
+<time datetime="2013-07-16T10:21:00+08:00" pubdate data-updated="true">Jul 16<span>th</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/jvm/'>jvm</a>
+  
+</span>
+
+
+    </p>
     
-  </header>
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://driftice.github.io/blog/2013/07/16/jvm-security/" data-via="" data-counturl="http://driftice.github.io/blog/2013/07/16/jvm-security/" >Tweet</a>
+  
+  
+  
+</div>
 
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/06/24/how-to-read-a-book/" title="Previous Post: 如何阅读一本书">&laquo; 如何阅读一本书</a>
+      
+      
+    </p>
+  </footer>
+</article>
 
-  <div class="entry-content"><h2>笔记</h2>
-
-<ol>
-<li><p>讨论什么是阅读，以及本书所指的阅读</p>
-
-<ol>
-<li>阅读必须是主动的阅读</li>
-<li>阅读的目标应该是为了获得知识和增加理解力</li>
-<li>阅读是无辅助的自我学习，让书本成为你的老师</li>
-</ol>
-</li>
-<li><p>将阅读分为4个层次，讨论每种层次的定义、特点，以及它们间的关系。</p>
-
-<ol>
-<li>四种阅读：基础阅读、检视阅读、分析阅读、主题阅读</li>
-</ol>
-</li>
-<li><p>什么是基础阅读，它的定义、发展与存在的问题</p>
-
-<ol>
-<li>基础阅读教育法的历史与发展趋势
-
-<ol>
-<li>从ABC教育法
- &ndash;>发音法，分析法
- &ndash;>目前百花齐放</li>
-</ol>
-</li>
-<li>基础阅读的几个阶段，以及最终应该达到的目标
-
-<ol>
-<li>阅读准备阶段(0-6、7岁，幼稚园)</li>
-<li>认字（至一年级）</li>
-<li>快速建立词汇（至四年级，能够读懂交通说明、图片说明、填写简单表格等）</li>
-<li>精炼与增进前三个阶段所学的技巧（至八九年级，至少在词义上，可以阅读几乎所有的读物）</li>
-</ol>
-</li>
-<li>高等教育在超越基础阅读的教学上的问题
-
-<ol>
-<li>存在不足，导致学生阅读能力并没有继续上升</li>
-<li>需要改正</li>
-</ol>
-</li>
-<li>阅读对于开启民智、应对未来的挑战非常重要</li>
-</ol>
-</li>
-<li><p>什么是检视阅读，它是在有限时间内阅读一本书的艺术，可以了解一本书的概貌，帮助我们确定一本书是否值得仔细读</p>
-
-<ol>
-<li>检视阅读读有两种
-
-<ol>
-<li>有系统的预读（pre-read,原书译文是说略读或粗读，但个人感觉预读这个词更准确一些）</li>
-<li>粗浅的阅读</li>
-</ol>
-</li>
-<li>有系统的预读
-
-<ol>
-<li>用快速浏览的方式阅读一本书，了解作者的重要主张，或者这到底是怎样的一本书</li>
-<li>目标是要发现这个书是否真的值得仔细读，之后就算是决定了不再多花时间阅读，也可以知道跟这个书有关的事</li>
-<li>如何预读的一些技术
-
-<ol>
-<li>看书名和序，了解这书的主题跟类型</li>
-<li>看目录，了解这书的基本架构</li>
-<li>检阅索引，找出重要词汇</li>
-<li>看看出版者介绍，了解一下主旨</li>
-<li>阅读主题相关的篇章，重点注意这些篇章前后的摘要（如果有的话）</li>
-<li>以跳读的方式快速翻阅全书，寻找主要论点讯号，留意主题的基本脉动。尤其注意最后两三页，作者一般会在最后重新整理一下重要的观点。</li>
-</ol>
-</li>
-</ol>
-</li>
-<li>粗浅的阅读（浅读）
-
-<ol>
-<li><RULE>面对一本难读的书，从头到尾先读完一遍，只注意你能理解的部分，略过不懂的部分，不要一遇到不懂的地方就停下来查询或思索。</li>
-</ol>
-</li>
-<li>检视阅读的要点
-
-<ol>
-<li>阅读的速度。
-
-<ol>
-<li>读出速度感。检视阅读的阅读速度，理想上，不只是要读得快，而且能针对不同的目标和部分，运行不同的速度来阅读。慢不慢到不值得，快不快到有损于满足与理解。</li>
-</ol>
-</li>
-<li>逗留与倒退。
-
-<ol>
-<li>很多人阅读时有眼光逗留与倒退的问题，这会导致速度过慢。</li>
-<li>应该学会”一目十行“。</li>
-<li>最简单的练习方式是，使用手指一行一行移动，速度比眼睛感觉的要快一些，强迫眼睛跟着手指移动。</li>
-</ol>
-</li>
-<li>理解的问题
-
-<ol>
-<li>没有经过分析阅读，你就没法理解一本书</li>
-</ol>
-</li>
-</ol>
-</li>
-</ol>
-</li>
-<li><p>做一个自我要求的读者。阅读的艺术不是随手可得，需要准备好你的心态跟技术。</p>
-
-<ol>
-<li>主动的阅读。<RULE>阅读的艺术就是，根据阅读层次的不同，提出合理的问题，并尝试回答这些问题
-
-<ol>
-<li>整体来说，这本书在谈什么？主题、次主题，如何发展和分解这些主题</li>
-<li>作者细部说什么，怎么说的？主要的想法、声明、论点</li>
-<li>这本书说得有道理吗？是全部有道理，还是部分有道理？</li>
-<li>这本书跟你有什么关系？</li>
-</ol>
-</li>
-<li>做笔记，才会让一本书真正属于你
-
-<ol>
-<li>为什么要作笔记
-
-<ol>
-<li>笔记让你保持清醒</li>
-<li>表达出来才能考验你是否真正明白</li>
-<li>写出来，能帮助你记住作者的思想</li>
-</ol>
-</li>
-<li>笔记的分类
-
-<ol>
-<li>检视阅读，结构笔记 &ndash;> 回答人问题是：这是怎么一本书？在谈什么？作者是如何整体架构的？</li>
-<li>分析/主题阅读，概念笔记</li>
-<li>主题阅读，辩证笔记</li>
-</ol>
-</li>
-<li>如何作笔记
-
-<ol>
-<li>为重点画底线或画圈</li>
-<li>底线下再划底线，用于强调其此为重中之重</li>
-<li>空白处做星号或其他符号，再折上（或书签），用于强调书中最重要的声明或段落（不要超过十来个）</li>
-<li>在空白处顺序编号，用于组织作者的陈述</li>
-<li>在空白处记下其他页码（如CF p33)，用于表示参照</li>
-<li>在空白处记下你的问题、答案、心得、理解、简述作者观点等。</li>
-<li>书的最后页，作为个人索引页，将作者的主要观点依序记下来</li>
-<li>书的前面页，记下本书的大纲</li>
-</ol>
-</li>
-</ol>
-</li>
-<li>培养阅读习惯。什么是好的阅读习惯，为什么需要培养习惯，以及如何培养习惯
-
-<ol>
-<li>只有不断地依照规则练习，才能养成习惯，这才是真正掌握</li>
-<li>练习阅读就像滑雪一样，需要先分解动作，逐个击破，再组合起来运用</li>
-</ol>
-</li>
-</ol>
-</li>
-<li><p>什么是分析阅读，它有哪些的操作规则</p>
-
-<ol>
-<li>确定一本书的分类
-
-<ol>
-<li><RULE 1>一定要知道自己在读的是哪一类书，越早知道越好，最好在阅读之前就知道
-
-<ol>
-<li>为什么要去分类？
-
-<ol>
-<li>有时候书籍的分类并不明显，需要用心区分</li>
-<li>就像不同的学科有不同的教法一样，不同的课程也有不同的学习方法，区分后方能更好的运用规则去阅读</li>
-</ol>
-</li>
-<li>基础分类
-
-<ol>
-<li>文学类（想象文学，故事、戏剧、诗歌等）</li>
-<li>论说类。一般是用于传递知识。
-
-<ol>
-<li>实用性（手册、规则等）。</li>
-<li>理论性（科学、数学、哲学、社会科学、历史）。</li>
-</ol>
-</li>
-</ol>
-</li>
-<li>如何区分？运行检视阅读法，注意审视书名，书名可以告诉我们很多。
-
-<ol>
-<li>如何区分理论性跟实用性？
-
-<ol>
-<li>实用是与某种有效的做法有关，不管是立即或长程的功效，而理论所关注的却是去明白或了解某件事。 实用跟理论的关系好比知识跟行动的关系。 质疑某件事的有效性是理论，而质疑任何事的目的，却是实用。</li>
-<li>理论到实践，通常需要中间的操作规则。超越“知道这是怎么回事”，进而明白“如果我们想做些什么，应该怎么它”。</li>
-<li>指南、学习技巧、伦理、经济、演说、道德规劝等都归为实用性</li>
-<li>实用性跟作者正不正确，我们同不同意没有关系</li>
-</ol>
-</li>
-<li>如何区分不同的理论性书籍？
-
-<ol>
-<li>历史就是纪事（ Chronotopic ），处理一些发生在特定时间，特定地点的真实事件。“纪事”这两个字就是要提醒你这一点。</li>
-<li>科学则不会太在意过去的事，它所面对的是可能发生在任何时间、地点的事</li>
-<li>哲学比较像科学，不像历史，追求的是一般的真理，而非发生在过去的特定事件，不管那个过去是近代或较远的年代。</li>
-<li>如何区别科学与哲学？如果一本理论的书所强调的内容，超乎你日常、例行、正常生活的经验，那就是科学的书。否则就是一本哲学的书。如果我们说科学家是以实验为基础，或仰赖精确的观察研究，而哲学家只是坐在摇椅上的思考者。</li>
-</ol>
-</li>
-</ol>
-</li>
-</ol>
-</li>
-</ol>
-</li>
-<li><p>透视一本书。找出一本书的基本骨架（架构）。</p>
-
-<ol>
-<li><RULE 2>使用最简短的句子（最多几句话）来描述本书的内容
-
-<ol>
-<li>能确切清楚地说出整体内容才是真正理解一本书</li>
-<li>要注意： 作者经常用帮你整理出重点，但还是必须要自己表达才可以；没有唯一准确的摘要，甚至跟作者的不同也没关系，当然，一个好的摘要还是要客观上贴近事实。</li>
-</ol>
-</li>
-<li><RULE 3>将书中重要的篇章列举出来，说明它们是如何按照顺序组成一个整体的架构
-
-<ol>
-<li>为了驾驭书的复杂性，需要捋清各个部分，并了解部分是如何组合成一个有机整体的</li>
-<li>这个规则与Rule2是一体两面、互相促进</li>
-<li>通用公式，如：
-
-<ol>
-<li>作者将全书分为3个部分，第一部分谈什么，第二部分谈什么，第三部分谈什么</li>
-<li>第一部分又分为3个段落，第一段落为X,第二段落为Y，第三段落为Z</li>
-<li>在第一部分的X段落，作者有4个重点，分别为A、B、C、D</li>
-<li>等等</li>
-</ol>
-</li>
-<li>这个通用公式只是理想情况，事实上需要根据你想读的程度来权衡。可能只需要粗浅地分析，或者只针对某一部分分析。</li>
-</ol>
-</li>
-<li>阅读与写作是一本两面的事
-
-<ol>
-<li>为什么作者不直接列出大纲，而要读者去发挖？没有人喜欢干瘪瘪的大纲，不符合正常人的审美，情绪上不喜欢，当然也就没办法达到传达思想的作用了，所以使用艺术手法来表达自己的思想是很必要的。就好比食物，需要色香味俱全，才会有足够的吸引力。关于这点，原文的精彩论述：
-
-<ol>
-<li>尽管这些规则是一体两面，但实行起来却不相同。读者是要“发现”书中隐藏着的骨架。而作者则是以制造骨架为开始，但却想办法把骨架“隐藏”起来。他的目的是，用艺术的手法将骨架隐藏起来，或是说，在骨架上添加血肉。如果他是个好作者，就不会将一个发育不良的骨架埋藏在一堆肥肉里，同样的，也不会瘦得皮包骨，让人一眼就看穿。如果血肉匀称，也没有松弛的赘肉，那就可以看到关节，可以从身体各个部位的活动中看出其中透露的言语。</li>
-<li>为什么这么说呢？为什么论说性的书，这种本来就想条理井然地传达一种知识的书，不能光是把主题纲要交待清楚便行？原因是，不仅大多数人都不会读纲要，而且对一位自我要求较高的读者来说，他并不喜欢这样的书，他会认为他可以做自己分内的事，而作者也该做他自己分内的事。还有更多的原因。对一本书来说，血肉跟骨架是一样重要的。</li>
-</ol>
-</li>
-<li>一个作品应该有整体感，清楚明白，前后连贯。这是优秀写作的基本准则。Rule2、3是根据这条准则而来。</li>
-</ol>
-</li>
-<li><Rule 4>找出作者要问的或想要解决的问题。找出主要问题、次要问题，和它们是如果组织、发展的。
-
-<ol>
-<li>避免”意图谬误“。
-
-<ol>
-<li>题外：新批评。<a href="http://baike.baidu.cn/view/999001.">http://baike.baidu.cn/view/999001.</a> htm
-
-<ol>
-<li>新批评提出要更关注于作品，而非作者，指出两种常见错误，一个是“意图谬误”，即对作者意图的探究为谬误。一个是”感受谬误“，即以读者情感波动弧度的大小评判作品的优劣。</li>
-<li>这是对天朝赤裸裸的嘲讽啊</li>
-</ol>
-</li>
-</ol>
-</li>
-</ol>
-</li>
-<li>前4个规则，为分析阅读第一阶段。这4个规则的共同目标是： 完成对一本书的架构的认识</li>
-</ol>
-</li>
-<li><p>与作者找出共通的词义</p>
-
-<ol>
-<li></li>
-</ol>
-</li>
-<li><p>公正地判断一本书</p></li>
-<li><p>赞同或反对作者</p></li>
-<li><p>辅助阅读</p></li>
-</ol>
-</li>
-<li><p>如何阅读不同的读物？要分析阅读的基础规则之上，根据不同类型的书籍的特点，需要对基础规则作相应的调整</p></li>
-</ol>
-
-
-<h2>本书练习</h2>
-
-<ul>
-<li><p>一句话描述</p>
-
-<blockquote><p>   本书是一本指导手册，指导你如何超越基础阅读的层次，通过更高层次的阅读来获得知识，增加理解力。作者将更高层次的阅读划分为检视阅读、分析阅读和主题阅读，逐次讨论每个层次定义、要点和操作规则。并针对不同类型的书籍给出不同的应对策略。其次，作者还讨论了阅读的一些基本技术要点，包括做笔记、心态、阅读速度等。另外，作者反复强调了只有能够确切、清楚地解构并用自己的语言复述，才是真正的理解一本书。</p></blockquote></li>
-<li><p>书的架构</p>
-
-<ol>
-<li> 这本书在讲什么？ 序言，c1,c2</li>
-<li> 为什么需要本书？序言，c3-3,c3-4,c5-3</li>
-<li> 阅读的基本技术要点？ c4-4,c5-1，c5-2</li>
-<li> 阅读的几个层次
-  基础阅读 &ndash;> c3-1，c3-2
-  检视阅读 &ndash;> c4
-  分析阅读 &ndash;>
-  主题阅读 &ndash;></li>
-<li> 针对不同的类型的书籍，如果作分析阅读</li>
-</ol>
-</li>
-<li><p>书的问题</p>
-
-<ol>
-<li> 如何阅读一本书？
-
-<ol>
-<li> 为什么需要阅读？</li>
-<li> 阅读都有哪一些层次？
-
-<ol>
-<li> 每个层次包含哪些规则，以及为什么需要这些规则，这些规则是如何组织起来的</li>
-</ol>
-</li>
-<li> 阅读有哪一些基本技术要点
-
-<ol>
-<li> 阅读的速度</li>
-<li> 做笔记</li>
-<li> 心态</li>
-</ol>
-</li>
-<li> 以上规则更多针对论说性作品的，如果是其他类型的作品，这些规则是否有效？
-
-<ol>
-<li> 是的，有效，但是需要变型</li>
-<li> 那么，具体怎么变型呢？</li>
-</ol>
-</li>
-</ol>
-</li>
-</ol>
-</li>
-</ul>
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 </div>
-  
-  
 
-
-    </article>
-  
-  <div class="pagination">
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
-</div>
 <aside class="sidebar">
   
     <section>
@@ -767,6 +426,7 @@ if (security != null) {
   
 </aside>
 
+
     </div>
   </div>
   <footer role="contentinfo"><p>
@@ -781,7 +441,10 @@ if (security != null) {
       var disqus_shortname = 'drift_ice';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://driftice.github.io/blog/2013/07/16/jvm-security/';
+        var disqus_url = 'http://driftice.github.io/blog/2013/07/16/jvm-security/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

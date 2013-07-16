@@ -4,7 +4,7 @@
   <title><![CDATA[路边飞的博客]]></title>
   <link href="http://driftice.github.io/atom.xml" rel="self"/>
   <link href="http://driftice.github.io/"/>
-  <updated>2013-06-24T15:49:43+08:00</updated>
+  <updated>2013-07-16T17:26:40+08:00</updated>
   <id>http://driftice.github.io/</id>
   <author>
     <name><![CDATA[路边飞]]></name>
@@ -12,6 +12,251 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[JVM安全-笔记]]></title>
+    <link href="http://driftice.github.io/blog/2013/07/16/jvm-security/"/>
+    <updated>2013-07-16T10:21:00+08:00</updated>
+    <id>http://driftice.github.io/blog/2013/07/16/jvm-security</id>
+    <content type="html"><![CDATA[<h2>为什么需要安全？</h2>
+
+<p>  安全模型使Java 成为网络环境的技术，因为它们建立了对网络移动代码安全执行的必要的可信机制。Java安全模型侧重于保护终端用户免受从网络下载的、来至于不可靠来源的、恶意程序的侵犯。而“沙箱”机制成为了这一目的的支持机制，在“沙箱”中存放不可信的 Java程序。“沙箱”对不可靠的程序的活动进行了限制，程序可以在“沙箱”的安全边界内做任何事，但是不能进行任何跨越这些边界的举动。</p>
+
+<p>比如说, 在版本 1.0 中的沙箱对于很多不可靠的 applet 进行了如下限制：</p>
+
+<ul>
+<li>对本地硬盘的读写</li>
+<li>进行任何网络连接，但是不能连接到提供这个applet 的源主机</li>
+<li>创建新的进程</li>
+<li>装载新的动态链接库</li>
+</ul>
+
+
+<h2>JVM的安全发展历史</h2>
+
+<ol>
+<li>1.0 基本沙箱。 可以严格控制代码可以做什么，不能做什么（访问控制）。</li>
+<li>1.1 代码签名与认证。 基本沙箱的权限控制太过严格，导致很多正常的代码不能运行，所以引入代码签名与认证。可以针对一系列信任的代码（如JAR)提供信任策略。</li>
+<li>1.2 细粒度的控制。 代码签名与认证的信任策略只能是完全信任和完全不信任，1.2引入细粒度的控制</li>
+</ol>
+
+
+<h2>1.0 基本沙箱</h2>
+
+<ol>
+<li><p>基本组成</p>
+
+<ul>
+<li>类加载器结构</li>
+<li>Class文件检验器</li>
+<li>内置于Java 虚拟机的安全特性</li>
+<li>安全管理器及Java API</li>
+</ul>
+
+
+<p> 1.0、1.1一般需要定制安全管理器(ScurityManager)来实现定制，1.2后提供一个默认的安全管理器，这个管理器支持使用<strong>策略文件</strong>的形式来定制。</p></li>
+<li><p>类加载器(ClassLoader)</p>
+
+<p> 类加载器在以下三个方面对Java 的沙箱起着作用：</p>
+
+<ul>
+<li>它防止恶意代码去干涉善意的代码</li>
+<li>它守护了被信任的类库的边界</li>
+<li>它将代码归入某类（称为保护域），该类确定了代码可以进行哪些操作</li>
+</ul>
+
+
+<p> <strong>双亲委派</strong></p>
+
+<p> 这是一个ClassLoader的查找过程，会在双亲中查找有没有加载相关的类，如果有，则有使用双亲中的类，如果没有，再由它加载。其中，<strong>启动类装载器</strong>跟<strong>标准扩展类装载器</strong>是JVM的系统装载器，不可更改的，而<strong>类路径装载器</strong>跟<strong>网络装载器</strong>是属于用户可定制的装载器。</p>
+
+<p> 这样保证了基本类总由可信任的ClassLoader加载，避免一些类似java.lang.Integer这样的类被篡改。</p>
+
+<p> <img src="http://driftice.github.io/images/jvm_classloader_find_path.PNG"></p>
+
+<p> <strong>命名空间</strong></p>
+
+<p> 不同ClassLoader之间，除非有父子关系（直接或间接），不然彼此之间是不可见的。比如同样一个类<em>com.troy.Test</em>，如果由两个不同的ClassLoader加载，就是不同的两个类（虽然行为是一样的），在JVM里分属不同的<strong>运行时包</strong></p>
+
+<p> <img src="http://driftice.github.io/images/jvm_classloader_namespace.png"></p></li>
+<li><p>Class文件检验器</p>
+
+<p> 保证装载的class文件有正确的内部结构，以及各个class文件是协调的。其安全目标就是保证程序的健壮性。毕竟，class文件不一定是由正常的编译器编译的，也有可能是黑客炮制的。</p>
+
+<p> 总共四趟检查：</p>
+
+<ol>
+<li><p>第一趟：检查class文件的结构。</p>
+
+<p> 就是检查class文件是否符合class文件格式，比如以0xCOFEBABE开头</p></li>
+<li><p>第二趟：类型数据的语义检查</p>
+
+<p> <strong>检查各个部分组成部分是否所属类型的实例，结构是否正确。</strong></p>
+
+<p> 比如，检查方法描述符是否已经存储为字符器，并且符合上下文件无关文法。</p>
+
+<p> <strong>检查是否符合特定条件</strong></p>
+
+<p> 比如，检查一个类（除Object)外，是否都有有超类；final类没有被子类化，final方法没有被覆盖等。</p></li>
+<li><p>第三趟：字节码验证。对<strong>字节码流</strong>进行数据流分析。</p>
+
+<p> <strong>保证指序操作的合法性</strong></p>
+
+<p> 比如，检查方法调用的参数类型是否正确，检查局部变量在初始化前不能被使用，操作数栈的总是包含正确的数值和类型等</p>
+
+<p> <strong>安全检查</strong></p>
+
+<p> 类似于“停机问题”，JVM也不可能写出一个可以检查出所有安全问题的程序。所以，策略是判定字节码流是否符合特定的<strong>规则集合</strong>，如果是，则判定为安全，如果不是，则视为不安全。</p></li>
+<li><p>第四趟：符号引用验证。</p>
+
+<p> 确保引用的正确性——从被验证的class文件，到被引用的class文件。因为JVM通常会使用懒加载机制，所以，这一趟通常是符号真正被引用的时候，才会进行。</p>
+
+<p> <strong>动态连接</strong></p>
+
+<p> 将<em>符号引号</em>解析为<em>直接引用</em>的过程。当JVM的操作码，它第一次使用了另一个类的引用时，需要进行解析：</p>
+
+<pre><code> 1. 查找被引用的类（如果需要，就加载它）
+ 2. 将符号引用替代成直接引用，例如一个类的方法、字段的指针或偏移量。
+</code></pre>
+
+<p> 解析操作只有第一次引用时需要，JVM会记住相关的指针或偏移量，以后就直接使用直接引用。</p>
+
+<p> <strong>保证二进制兼容性</strong></p>
+
+<p> 比如：</p>
+
+<ul>
+<li>被引用的类是存在并且可以被合法加载的；</li>
+<li>被引用的类的方法、字段是存在的；</li>
+<li>被引用的类的方法返回的类型是合法的；</li>
+<li>被引用的类的字段类型是合法的。</li>
+</ul>
+</li>
+</ol>
+</li>
+<li><p>内置于Java 虚拟机的安全特性</p></li>
+<li><p>类型安全的引用转换</p></li>
+<li>结构化的内存访问（无指针算法）</li>
+<li>自动垃圾收集（不必要显式的释放被分配的内存）</li>
+<li>数组边界检查</li>
+<li><p>空引用检查</p></li>
+<li><p>安全管理器及Java API</p></li>
+</ol>
+
+
+<p>JDK文档中的安全管理器(SecurityManager)的定义：</p>
+
+<blockquote><p>安全管理器是一个允许应用程序实现安全策略的类。它允许应用程序在执行一个可能不安全或敏感的操作前确定该操作是什么，以及是否是在允许执行该操作的安全上下文中执行它。应用程序可以允许或不允许该操作。</p>
+
+<p>SecurityManager 类包含了很多名称以单词 check 开头的方法。Java 库中的各种方法在执行某些潜在的敏感操作前可以调用这些方法。对 check 方法的典型调用如下：</p>
+
+<pre><code>SecurityManager security = System.getSecurityManager();
+if (security != null) {
+    security.checkXXX(argument,  . . . );
+}
+</code></pre>
+
+<p>因此，安全管理器通过抛出异常来提供阻止操作完成的机会。如果允许执行该操作，则安全管理器例程只是简单地返回，但如果不允许执行该操作，则抛出一个 SecurityException。该约定的唯一例外是 checkTopLevelWindow，它返回 boolean 值。</p></blockquote>
+
+<p><strong>兼容问题</strong></p>
+
+<p>在新的JVM版本已经提供了一个默认实现，SecurityManager.checkXXX是老式方式，并不建议使用，但为了向下兼容，使用了以下的委派链。事实上，真正实现安全策略的是在AccessController类</p>
+
+<p>SecurityManager的checkXXX系列方法 （委派）—> SecurityManager.checkPermission （委派）—> AccessController.checkPermission</p>
+
+<h2>1.1 代码签名与认证</h2>
+
+<p>认证策略可以让用户在一个沙箱中，实现多种安全策略</p>
+
+<ol>
+<li>代码签名</li>
+</ol>
+
+
+<p><strong>基础知识</strong>：散列、数字指纹、公私钥、数字签名。</p>
+
+<p>签名过程：</p>
+
+<p><img src="http://driftice.github.io/images/jvm_code_signer_enc.PNG"></p>
+
+<p>验证签名过程：</p>
+
+<p><img src="http://driftice.github.io/images/jvm_code_signer_dec.PNG"></p>
+
+<ol>
+<li>认证</li>
+</ol>
+
+
+<p><strong>基础知识</strong>：<a href="http://lukejin.iteye.com/blog/587200">证书链</a></p>
+
+<p>为的是解决签名过程中公私钥的发布的安全问题</p>
+
+<h2>1.2 细精度控制</h2>
+
+<ol>
+<li><p>策略</p>
+
+<p> 依赖于代码签名与认证的能力，可以使用一个策略描述文件，来描述不同的签名或codebase的权限。</p>
+
+<p> <strong>策略的类结构</strong></p>
+
+<p> <img src="http://driftice.github.io/images/jvm_policy_classes.PNG"></p>
+
+<p> <strong>一个策略文件的例子</strong></p>
+
+<p> <img src="http://driftice.github.io/images/jvm_policy_file.PNG"></p></li>
+<li><p>保护域</p>
+
+<p> 策略文件中，一段策略描述就是一个保护域。保护域描述了CodeSource和PermissionCollection，在ClassLoader加载某一个类的时候，会将这个类与一个保护域关联起来。如下：</p>
+
+<p> <img src="http://driftice.github.io/images/jvm_protectiondomain.PNG"></p></li>
+<li><p>访问控制器(AccessController)</p>
+
+<p> <strong>原理</strong></p>
+
+<p> AccessController是SecurityManager默认实现的真正执行类。由Accesscontroller的checkPermission（) 实现的基本算法决定了调用栈中的每个侦是否有权执行潜在不安全的操作。 每一个栈帧代表了由当前线程调用的某个方法， 每一个方法是在某
+ 个类中定义的, 每一个类又属于某个保护城，每个保护城包含一些权限，因此， 每个栈帧间接地和一些权限相关。</p>
+
+<p> Accesscontroller的checkPermission（)至顶向下检查栈，只有有一个栈帧的权限不够，就会抛出异常。</p>
+
+<p> <img src="http://driftice.github.io/images/jvm_access_controller_check_stack.PNG"></p>
+
+<p> <strong>AccessController.implies方法</strong></p>
+
+<p> 这是Permission的方法，用于判断一个Permission是否蕴含另一个Permission，比如/var/* => /var/temp。</p>
+
+<p> 一般来说，是调用我们描述的Permission.implies方法，来判断当前的Permission请求是否可以通过。</p>
+
+<p> <strong>AccessController.doPrivileged方法</strong></p>
+
+<p> 默认情况下，AccessController是会检查所有的堆栈，隐藏的结果就是，如果一个比较低权限的类调用比较高权限的类时，只能使用比较低的权限，而自动放弃同的权限。这在很多场合下是过分严格的，比如，一个受限无访问文件权限的类，调用了一个类，而这个需要去读取一个配置文件，这样的操作是会被禁止的。</p>
+
+<p> 所以，为了避免这个情况，提供了一个方法doPrivileged静态方法，这个静态方法的作用是<strong>截断</strong>权限检查的栈帧，如下：</p>
+
+<p> <img src="http://driftice.github.io/images/jvm_do_privileged.PNG"></p>
+
+<p> 这样的话，检查的栈帧就只会检查到此方法而已，如下（假设在Firend调用了以上的doPrivileged代码）：</p>
+
+<p> <img src="http://driftice.github.io/images/jvm_do_privileged2.PNG"></p></li>
+</ol>
+
+
+<h1>目前的不足</h1>
+
+<ol>
+<li><p>不能应付以下两种情况：</p>
+
+<ul>
+<li>耗尽内存</li>
+<li>不断开新的Thread</li>
+</ul>
+</li>
+<li><p>没有跟系统用户集成</p></li>
+</ol>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[如何阅读一本书]]></title>
