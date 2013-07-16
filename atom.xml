@@ -4,7 +4,7 @@
   <title><![CDATA[路边飞的博客]]></title>
   <link href="http://driftice.github.io/atom.xml" rel="self"/>
   <link href="http://driftice.github.io/"/>
-  <updated>2013-07-16T17:26:40+08:00</updated>
+  <updated>2013-07-16T17:47:27+08:00</updated>
   <id>http://driftice.github.io/</id>
   <author>
     <name><![CDATA[路边飞]]></name>
@@ -201,7 +201,7 @@ if (security != null) {
 
 <p> <strong>策略的类结构</strong></p>
 
-<p> <img src="http://driftice.github.io/images/jvm_policy_classes.PNG"></p>
+<p> <img src="http://driftice.github.io/images/jvm_policy_classes.png"></p>
 
 <p> <strong>一个策略文件的例子</strong></p>
 
