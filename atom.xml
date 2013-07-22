@@ -4,7 +4,7 @@
   <title><![CDATA[路边飞的博客]]></title>
   <link href="http://driftice.github.io/atom.xml" rel="self"/>
   <link href="http://driftice.github.io/"/>
-  <updated>2013-07-22T17:46:39+08:00</updated>
+  <updated>2013-07-22T17:47:36+08:00</updated>
   <id>http://driftice.github.io/</id>
   <author>
     <name><![CDATA[路边飞]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[JVM网络无关性-笔记]]></title>
+    <title type="html"><![CDATA[JVM网络移动性-笔记]]></title>
     <link href="http://driftice.github.io/blog/2013/07/22/jvm-network-mobility/"/>
     <updated>2013-07-22T16:46:00+08:00</updated>
     <id>http://driftice.github.io/blog/2013/07/22/jvm-network-mobility</id>
