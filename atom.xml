@@ -4,7 +4,7 @@
   <title><![CDATA[路边飞的博客]]></title>
   <link href="http://driftice.github.io/atom.xml" rel="self"/>
   <link href="http://driftice.github.io/"/>
-  <updated>2013-07-16T17:49:33+08:00</updated>
+  <updated>2013-07-22T10:45:34+08:00</updated>
   <id>http://driftice.github.io/</id>
   <author>
     <name><![CDATA[路边飞]]></name>
@@ -134,12 +134,16 @@
 </li>
 </ol>
 </li>
-<li><p>内置于Java 虚拟机的安全特性</p></li>
-<li><p>类型安全的引用转换</p></li>
+<li><p>内置于Java 虚拟机的安全特性</p>
+
+<ul>
+<li>类型安全的引用转换</li>
 <li>结构化的内存访问（无指针算法）</li>
 <li>自动垃圾收集（不必要显式的释放被分配的内存）</li>
 <li>数组边界检查</li>
-<li><p>空引用检查</p></li>
+<li>空引用检查</li>
+</ul>
+</li>
 <li><p>安全管理器及Java API</p></li>
 </ol>
 
