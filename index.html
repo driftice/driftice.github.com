@@ -9,10 +9,8 @@
   <meta name="author" content="路边飞">
 
   
-  <meta name="description" content="为什么需要平台无关性？ 设备多样化，可以不加修改地运行。
-设备连网化，平台无关性，使得不同平台之间可以无缝地交换对象。比如，使用JINI技术
-减少针对多平台开发的难度和工作量。 对平台无关性的支持 Java平台 扮演着Java程序跟操作系统的缓冲角色，使得程序无需直接跟特定平台打交道
-Java语言 &hellip;">
+  <meta name="description" content="为什么需要网络移动性？ 计算的模式发展 从大型分时计算机到个人计算机集群的转变，使得计算模式从中心分时架构，变为N层C/S架构，再到分布式架构
+一种新的软件模式 逻辑跟数据 跟 运行容器 分离，可以在运行时，按需从网络获取相关的逻辑跟数据，组装成系统。其实就是B/S模式。 可以解决代码的管理、升级 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -80,6 +78,74 @@ Java语言 &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/07/22/jvm-network-mobility/">JVM网络无关性-笔记</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-22T16:46:00+08:00" pubdate data-updated="true">Jul 22<span>nd</span>, 2013</time>
+        
+         | <a href="/blog/2013/07/22/jvm-network-mobility/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>为什么需要网络移动性？</h2>
+
+<ol>
+<li><p>计算的模式发展</p>
+
+<p> 从大型分时计算机到个人计算机集群的转变，使得计算模式从中心分时架构，变为N层C/S架构，再到分布式架构</p></li>
+<li><p>一种新的软件模式</p>
+
+<p> 逻辑跟数据 跟 运行容器 分离，可以在运行时，按需从网络获取相关的逻辑跟数据，组装成系统。其实就是B/S模式。</p>
+
+<p> 可以解决代码的管理、升级、配置问题。</p></li>
+<li><p>对网络移动性的支持</p>
+
+<ul>
+<li>动态连接。热加载class，避免一次性下载。</li>
+<li>动态扩展。允许根据需要动态地扩展class集。</li>
+<li>class文件格式的紧凑性</li>
+<li>JAR包。减少下载次数。</li>
+</ul>
+</li>
+<li><p>applet</p></li>
+<li><p>JINI</p>
+
+<p> 技术：　服务注册中心　+　　对象序列化　+　RMI
+ 角色：　查找服务　＋　服务提供者　＋　客户机
+ 协议：　网络协议（探索）　＋　对象协议（加入、查找）</p></li>
+<li><p>代码与对象的网络移动性是Java的<strong>设计中心</strong></p>
+
+<p> 安全性 和 平台无关性 很多程度上为这上目标服务的。</p></li>
+</ol>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -973,6 +1039,10 @@ if (security != null) {
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/07/22/jvm-network-mobility/">JVM网络无关性-笔记</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2013/07/22/jvm-independence/">JVM平台无关性-笔记</a>
