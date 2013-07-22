@@ -4,7 +4,7 @@
   <title><![CDATA[Category: jvm | 路边飞的博客]]></title>
   <link href="http://driftice.github.io/blog/categories/jvm/atom.xml" rel="self"/>
   <link href="http://driftice.github.io/"/>
-  <updated>2013-07-22T10:45:34+08:00</updated>
+  <updated>2013-07-22T15:08:12+08:00</updated>
   <id>http://driftice.github.io/</id>
   <author>
     <name><![CDATA[路边飞]]></name>
@@ -12,6 +12,103 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[JVM体系结构介绍]]></title>
+    <link href="http://driftice.github.io/blog/2013/07/22/jvm-introduction/"/>
+    <updated>2013-07-22T14:21:00+08:00</updated>
+    <id>http://driftice.github.io/blog/2013/07/22/jvm-introduction</id>
+    <content type="html"><![CDATA[<h2>为什么使用JAVA?</h2>
+
+<p>网络化大潮，JAVA是为网络而设计。<strong>安全性</strong>、<strong>网络移动性</strong>及<strong>平台无关性</strong>都是围绕这个目标设计。</p>
+
+<h2>体系结构</h2>
+
+<p>四个独立但是相关的技术：</p>
+
+<ul>
+<li>JAVA程序设计语言</li>
+<li>JAVA class文件格式</li>
+<li>JAVA应用编程接口(API)</li>
+<li>JAVA虚拟机</li>
+</ul>
+
+
+<h2>JAVA虚拟机</h2>
+
+<p>JAVA虚拟机的主要任务是装载class文件，并且执行其中的代码。</p>
+
+<p><strong>不同的虚拟机，可能有不同的执行引擎</strong></p>
+
+<ul>
+<li>直接解释字节码。</li>
+<li>即时编译。全部转换成本地代码）</li>
+<li>自适应编译。把最频繁的10-20%代码编译成本地代码。</li>
+<li>硬件芯片编译。</li>
+</ul>
+
+
+<p><strong>本地方法与JAVA方法</strong></p>
+
+<p>本地方法(JNI)用于与操作系统打交道，是平台相关的
+JAVA方法就是纯JAVA实现的方法，是平台无关的</p>
+
+<p><strong>ClassLoader</strong></p>
+
+<p>解决的是安全性（隔离性）与网络移动性（动态加载class).分为两类：一类是JVM的系统加载器，称为<strong>bootstrap classloader</strong>，另一个类是用户自定义的加载器</p>
+
+<p><img src="/images/jvm_classloader_arch.png"></p>
+
+<h2>JAVA class文件</h2>
+
+<p>在平台无关性、网络移动性更适应网络</p>
+
+<ol>
+<li>平台无关性
+ 独立于底层主机的二进制形式。以<strong>以字节码</strong>的形式，避免编译时与特定系统绑定。</li>
+<li>网络移动性
+
+<ul>
+<li>更紧凑的格式</li>
+<li>动态连接（使用时才加载）</li>
+<li>动态扩展（可动态增加class)</li>
+</ul>
+</li>
+</ol>
+
+
+<h2>JAVA API</h2>
+
+<p>JAVA API是运行库的集合，是JAVA平台都要实现的必要部分，可以安全地假设可以被获取到。在需要与主机资源打交道的时候，JAVA可以调用JAVA API来实现，从而避免平台相关。</p>
+
+<p><img src="/images/jvm_java_api_instr.png"></p>
+
+<h2>JAVA程序设计语言</h2>
+
+<p>一门通用语言，并不局限与网络相关的领域。其核心思想是使得程序员更有效率，程序更加健壮，而且在于为新兴的网络为中心的计算环境提供一个工具。</p>
+
+<ul>
+<li>面向对象</li>
+<li>多线程</li>
+<li>结构化错误处理</li>
+<li>垃圾收集</li>
+<li>动态连接</li>
+<li>动态扩展</li>
+</ul>
+
+
+<p>缺点：</p>
+
+<ol>
+<li>性能的问题</li>
+<li>内存管理。回收的不确定性。</li>
+<li>线程调度。过于宽松的线程规范，可能导致不同平台的调度方式不同。</li>
+<li>功能的最小公分母问题。这是为实现跨平台的必然困难。</li>
+<li>易于反编译。这是由于为了实现动态连接性，一个类对另一个类的引用是符号引用，而不是指针或偏移量。所以，被引用的类的方法，字段等，需要详细描述。使得反编译变得容易。混淆器可以减轻这个问题。</li>
+</ol>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[JVM安全-笔记]]></title>

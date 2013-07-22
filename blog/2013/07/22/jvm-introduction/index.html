@@ -1,0 +1,336 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>JVM体系结构介绍 - 路边飞的博客</title>
+  <meta name="author" content="路边飞">
+
+  
+  <meta name="description" content="为什么使用JAVA? 网络化大潮，JAVA是为网络而设计。安全性、网络移动性及平台无关性都是围绕这个目标设计。 体系结构 四个独立但是相关的技术： JAVA程序设计语言
+JAVA class文件格式
+JAVA应用编程接口(API)
+JAVA虚拟机 JAVA虚拟机 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://driftice.github.io/blog/2013/07/22/jvm-introduction">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="路边飞的博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-41972917-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">路边飞的博客</a></h1>
+  
+    <h2>直面血淋淋、湿漉漉、暖洋洋的程序人生</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:driftice.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">JVM体系结构介绍</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-22T14:21:00+08:00" pubdate data-updated="true">Jul 22<span>nd</span>, 2013</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2>为什么使用JAVA?</h2>
+
+<p>网络化大潮，JAVA是为网络而设计。<strong>安全性</strong>、<strong>网络移动性</strong>及<strong>平台无关性</strong>都是围绕这个目标设计。</p>
+
+<h2>体系结构</h2>
+
+<p>四个独立但是相关的技术：</p>
+
+<ul>
+<li>JAVA程序设计语言</li>
+<li>JAVA class文件格式</li>
+<li>JAVA应用编程接口(API)</li>
+<li>JAVA虚拟机</li>
+</ul>
+
+
+<h2>JAVA虚拟机</h2>
+
+<p>JAVA虚拟机的主要任务是装载class文件，并且执行其中的代码。</p>
+
+<p><strong>不同的虚拟机，可能有不同的执行引擎</strong></p>
+
+<ul>
+<li>直接解释字节码。</li>
+<li>即时编译。全部转换成本地代码）</li>
+<li>自适应编译。把最频繁的10-20%代码编译成本地代码。</li>
+<li>硬件芯片编译。</li>
+</ul>
+
+
+<p><strong>本地方法与JAVA方法</strong></p>
+
+<p>本地方法(JNI)用于与操作系统打交道，是平台相关的
+JAVA方法就是纯JAVA实现的方法，是平台无关的</p>
+
+<p><strong>ClassLoader</strong></p>
+
+<p>解决的是安全性（隔离性）与网络移动性（动态加载class).分为两类：一类是JVM的系统加载器，称为<strong>bootstrap classloader</strong>，另一个类是用户自定义的加载器</p>
+
+<p><img src="/images/jvm_classloader_arch.png"></p>
+
+<h2>JAVA class文件</h2>
+
+<p>在平台无关性、网络移动性更适应网络</p>
+
+<ol>
+<li>平台无关性
+ 独立于底层主机的二进制形式。以<strong>以字节码</strong>的形式，避免编译时与特定系统绑定。</li>
+<li>网络移动性
+
+<ul>
+<li>更紧凑的格式</li>
+<li>动态连接（使用时才加载）</li>
+<li>动态扩展（可动态增加class)</li>
+</ul>
+</li>
+</ol>
+
+
+<h2>JAVA API</h2>
+
+<p>JAVA API是运行库的集合，是JAVA平台都要实现的必要部分，可以安全地假设可以被获取到。在需要与主机资源打交道的时候，JAVA可以调用JAVA API来实现，从而避免平台相关。</p>
+
+<p><img src="/images/jvm_java_api_instr.png"></p>
+
+<h2>JAVA程序设计语言</h2>
+
+<p>一门通用语言，并不局限与网络相关的领域。其核心思想是使得程序员更有效率，程序更加健壮，而且在于为新兴的网络为中心的计算环境提供一个工具。</p>
+
+<ul>
+<li>面向对象</li>
+<li>多线程</li>
+<li>结构化错误处理</li>
+<li>垃圾收集</li>
+<li>动态连接</li>
+<li>动态扩展</li>
+</ul>
+
+
+<p>缺点：</p>
+
+<ol>
+<li>性能的问题</li>
+<li>内存管理。回收的不确定性。</li>
+<li>线程调度。过于宽松的线程规范，可能导致不同平台的调度方式不同。</li>
+<li>功能的最小公分母问题。这是为实现跨平台的必然困难。</li>
+<li>易于反编译。这是由于为了实现动态连接性，一个类对另一个类的引用是符号引用，而不是指针或偏移量。所以，被引用的类的方法，字段等，需要详细描述。使得反编译变得容易。混淆器可以减轻这个问题。</li>
+</ol>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">路边飞</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-22T14:21:00+08:00" pubdate data-updated="true">Jul 22<span>nd</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/jvm/'>jvm</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://driftice.github.io/blog/2013/07/22/jvm-introduction/" data-via="" data-counturl="http://driftice.github.io/blog/2013/07/22/jvm-introduction/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/07/16/jvm-security/" title="Previous Post: JVM安全-笔记">&laquo; JVM安全-笔记</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/07/22/jvm-introduction/">JVM体系结构介绍</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/07/16/jvm-security/">JVM安全-笔记</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/24/how-to-read-a-book/">如何阅读一本书</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - 路边飞 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'drift_ice';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://driftice.github.io/blog/2013/07/22/jvm-introduction/';
+        var disqus_url = 'http://driftice.github.io/blog/2013/07/22/jvm-introduction/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
