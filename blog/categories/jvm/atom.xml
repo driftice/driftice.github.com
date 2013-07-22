@@ -4,7 +4,7 @@
   <title><![CDATA[Category: jvm | 路边飞的博客]]></title>
   <link href="http://driftice.github.io/blog/categories/jvm/atom.xml" rel="self"/>
   <link href="http://driftice.github.io/"/>
-  <updated>2013-07-22T15:15:35+08:00</updated>
+  <updated>2013-07-22T16:24:07+08:00</updated>
   <id>http://driftice.github.io/</id>
   <author>
     <name><![CDATA[路边飞]]></name>
@@ -14,29 +14,92 @@
 
   
   <entry>
+    <title type="html"><![CDATA[JVM平台无关性-笔记]]></title>
+    <link href="http://driftice.github.io/blog/2013/07/22/jvm-independence/"/>
+    <updated>2013-07-22T15:17:00+08:00</updated>
+    <id>http://driftice.github.io/blog/2013/07/22/jvm-independence</id>
+    <content type="html"><![CDATA[<h2>为什么需要平台无关性？</h2>
+
+<ol>
+<li>设备多样化，可以不加修改地运行。</li>
+<li>设备连网化，平台无关性，使得不同平台之间可以无缝地交换对象。比如，使用JINI技术</li>
+<li>减少针对多平台开发的难度和工作量。</li>
+</ol>
+
+
+<h2>对平台无关性的支持</h2>
+
+<ol>
+<li><p>Java平台</p>
+
+<p>  扮演着Java程序跟操作系统的缓冲角色，使得程序无需直接跟特定平台打交道</p></li>
+<li><p>Java语言</p>
+
+<p> 基本类型的值域跟行为都是自己的规范，跟平台无关</p></li>
+<li><p>class文件</p>
+
+<p> 特定于JVM的二进制格式，与平台无关，如字节序等</p></li>
+<li><p>可伸缩性</p>
+
+<p> Java平台可在不同的设备上实现，包括PC、嵌入式设备等。可根据不同的设备进行适当的裁剪，但要符合规范定义的功能子集。</p></li>
+</ol>
+
+
+<h2>影响平台无关性的因素</h2>
+
+<ol>
+<li><p>Java平台的部署</p>
+
+<p> 目标平台是否有相关的Java平台实现</p></li>
+<li><p>Java平台的版本</p>
+
+<ul>
+<li>各版本间的兼容性问题</li>
+<li>不同的功能子集的问题</li>
+<li>不同厂商针对特定平台的扩展功能问题</li>
+</ul>
+</li>
+<li><p>本地方法</p></li>
+<li>非标准运行时库</li>
+<li>对JVM行为的依赖
+
+<ul>
+<li>不要依赖对象的finalization行为</li>
+<li>不要依赖线程优先级</li>
+</ul>
+</li>
+<li>对用户界面的依赖</li>
+<li>Java平台的Bug
+ 如果目标平台集中有一个实现有Bug，会导致其他平台此功能不可使用。需要多测试。</li>
+</ol>
+
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[JVM体系结构介绍-笔记]]></title>
     <link href="http://driftice.github.io/blog/2013/07/22/jvm-introduction/"/>
     <updated>2013-07-22T14:21:00+08:00</updated>
     <id>http://driftice.github.io/blog/2013/07/22/jvm-introduction</id>
-    <content type="html"><![CDATA[<h2>为什么使用JAVA?</h2>
+    <content type="html"><![CDATA[<h2>为什么使用Java?</h2>
 
-<p>网络化大潮，JAVA是为网络而设计。<strong>安全性</strong>、<strong>网络移动性</strong>及<strong>平台无关性</strong>都是围绕这个目标设计。</p>
+<p>网络化大潮，Java是为网络而设计。<strong>安全性</strong>、<strong>网络移动性</strong>及<strong>平台无关性</strong>都是围绕这个目标设计。</p>
 
 <h2>体系结构</h2>
 
 <p>四个独立但是相关的技术：</p>
 
 <ul>
-<li>JAVA程序设计语言</li>
-<li>JAVA class文件格式</li>
-<li>JAVA应用编程接口(API)</li>
-<li>JAVA虚拟机</li>
+<li>Java程序设计语言</li>
+<li>Java class文件格式</li>
+<li>Java应用编程接口(API)</li>
+<li>Java虚拟机</li>
 </ul>
 
 
-<h2>JAVA虚拟机</h2>
+<h2>Java虚拟机</h2>
 
-<p>JAVA虚拟机的主要任务是装载class文件，并且执行其中的代码。</p>
+<p>Java虚拟机的主要任务是装载class文件，并且执行其中的代码。</p>
 
 <p><img src="/images/jvm_architecture_intro.png"></p>
 
@@ -50,16 +113,16 @@
 </ul>
 
 
-<p><strong>本地方法与JAVA方法</strong></p>
+<p><strong>本地方法与Java方法</strong></p>
 
 <p>本地方法(JNI)用于与操作系统打交道，是平台相关的
-JAVA方法就是纯JAVA实现的方法，是平台无关的</p>
+Java方法就是纯Java实现的方法，是平台无关的</p>
 
 <p><strong>ClassLoader</strong></p>
 
 <p>解决的是安全性（隔离性）与网络移动性（动态加载class).分为两类：一类是JVM的系统加载器，称为<strong>bootstrap classloader</strong>，另一个类是用户自定义的加载器</p>
 
-<h2>JAVA class文件</h2>
+<h2>Java class文件</h2>
 
 <p>在平台无关性、网络移动性更适应网络</p>
 
@@ -77,13 +140,13 @@ JAVA方法就是纯JAVA实现的方法，是平台无关的</p>
 </ol>
 
 
-<h2>JAVA API</h2>
+<h2>Java API</h2>
 
-<p>JAVA API是运行库的集合，是JAVA平台都要实现的必要部分，可以安全地假设可以被获取到。在需要与主机资源打交道的时候，JAVA可以调用JAVA API来实现，从而避免平台相关。</p>
+<p>Java API是运行库的集合，是Java平台都要实现的必要部分，可以安全地假设可以被获取到。在需要与主机资源打交道的时候，Java可以调用Java API来实现，从而避免平台相关。</p>
 
-<p><img src="/images/jvm_java_api_instr.png"></p>
+<p><img src="/images/jvm_Java_api_instr.png"></p>
 
-<h2>JAVA程序设计语言</h2>
+<h2>Java程序设计语言</h2>
 
 <p>一门通用语言，并不局限与网络相关的领域。其核心思想是使得程序员更有效率，程序更加健壮，而且在于为新兴的网络为中心的计算环境提供一个工具。</p>
 
@@ -167,7 +230,7 @@ JAVA方法就是纯JAVA实现的方法，是平台无关的</p>
 
 <p> 这是一个ClassLoader的查找过程，会在双亲中查找有没有加载相关的类，如果有，则有使用双亲中的类，如果没有，再由它加载。其中，<strong>启动类装载器</strong>跟<strong>标准扩展类装载器</strong>是JVM的系统装载器，不可更改的，而<strong>类路径装载器</strong>跟<strong>网络装载器</strong>是属于用户可定制的装载器。</p>
 
-<p> 这样保证了基本类总由可信任的ClassLoader加载，避免一些类似java.lang.Integer这样的类被篡改。</p>
+<p> 这样保证了基本类总由可信任的ClassLoader加载，避免一些类似Java.lang.Integer这样的类被篡改。</p>
 
 <p> <img src="/images/jvm_classloader_find_path.PNG"></p>
 

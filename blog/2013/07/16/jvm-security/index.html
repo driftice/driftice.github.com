@@ -157,7 +157,7 @@
 
 <p> 这是一个ClassLoader的查找过程，会在双亲中查找有没有加载相关的类，如果有，则有使用双亲中的类，如果没有，再由它加载。其中，<strong>启动类装载器</strong>跟<strong>标准扩展类装载器</strong>是JVM的系统装载器，不可更改的，而<strong>类路径装载器</strong>跟<strong>网络装载器</strong>是属于用户可定制的装载器。</p>
 
-<p> 这样保证了基本类总由可信任的ClassLoader加载，避免一些类似java.lang.Integer这样的类被篡改。</p>
+<p> 这样保证了基本类总由可信任的ClassLoader加载，避免一些类似Java.lang.Integer这样的类被篡改。</p>
 
 <p> <img src="/images/jvm_classloader_find_path.PNG"></p>
 
@@ -413,6 +413,10 @@ if (security != null) {
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/07/22/jvm-independence/">JVM平台无关性-笔记</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2013/07/22/jvm-introduction/">JVM体系结构介绍-笔记</a>
