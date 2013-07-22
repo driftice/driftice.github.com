@@ -4,7 +4,7 @@
   <title><![CDATA[路边飞的博客]]></title>
   <link href="http://driftice.github.io/atom.xml" rel="self"/>
   <link href="http://driftice.github.io/"/>
-  <updated>2013-07-22T15:09:52+08:00</updated>
+  <updated>2013-07-22T15:14:13+08:00</updated>
   <id>http://driftice.github.io/</id>
   <author>
     <name><![CDATA[路边飞]]></name>
@@ -38,6 +38,8 @@
 
 <p>JAVA虚拟机的主要任务是装载class文件，并且执行其中的代码。</p>
 
+<p><img src="http://driftice.github.io/images/jvm_architecture_intro.png"></p>
+
 <p><strong>不同的虚拟机，可能有不同的执行引擎</strong></p>
 
 <ul>
@@ -56,8 +58,6 @@ JAVA方法就是纯JAVA实现的方法，是平台无关的</p>
 <p><strong>ClassLoader</strong></p>
 
 <p>解决的是安全性（隔离性）与网络移动性（动态加载class).分为两类：一类是JVM的系统加载器，称为<strong>bootstrap classloader</strong>，另一个类是用户自定义的加载器</p>
-
-<p><img src="http://driftice.github.io/images/jvm_classloader_arch.png"></p>
 
 <h2>JAVA class文件</h2>
 
