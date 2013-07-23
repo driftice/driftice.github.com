@@ -4,7 +4,7 @@
   <title><![CDATA[Category: jvm | 路边飞的博客]]></title>
   <link href="http://driftice.github.io/blog/categories/jvm/atom.xml" rel="self"/>
   <link href="http://driftice.github.io/"/>
-  <updated>2013-07-23T15:11:14+08:00</updated>
+  <updated>2013-07-23T18:11:28+08:00</updated>
   <id>http://driftice.github.io/</id>
   <author>
     <name><![CDATA[路边飞]]></name>
@@ -12,6 +12,259 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[JVM虚拟机-笔记-part1]]></title>
+    <link href="http://driftice.github.io/blog/2013/07/23/jvm-jvm/"/>
+    <updated>2013-07-23T15:22:00+08:00</updated>
+    <id>http://driftice.github.io/blog/2013/07/23/jvm-jvm</id>
+    <content type="html"><![CDATA[<h2>Java虚拟机是什么</h2>
+
+<p>不同的场景，可能意味着不同的东西，包括：</p>
+
+<ul>
+<li>一种抽象规范</li>
+<li>一种规范实现</li>
+<li>一个运行实例</li>
+</ul>
+
+
+<h2>生命周期</h2>
+
+<p>从main()函数开始，当所以非守护进程退出，或System.exit()时结束</p>
+
+<h2>体系结构</h2>
+
+<ol>
+<li><p>系统运行时结构</p>
+
+<p> <img src="/images/jvm_runtime_system_arch.png"></p></li>
+<li><p>Java栈运行时结构</p>
+
+<p> <img src="/images/jvm_runtime_java_stack_arch.png"></p></li>
+<li><p>数据类型</p>
+
+<p> <img src="/images/jvm_runtime_base_type.png"></p>
+
+<p> <strong>字(word)</strong>
+ 一个字没有固定长度，但要求：</p>
+
+<ul>
+<li>一个字可以表示int,byte,float等</li>
+<li>两个字可以表示long,double</li>
+<li>一个字可以表示一个引用</li>
+</ul>
+
+
+<p> 所以，通常一个字最少32bit。一般是特定平台上的指针长度。</p>
+
+<p> <strong>特殊类型</strong></p>
+
+<ul>
+<li>boolean用byte或int表示</li>
+<li>returnAddress,只用于虚拟机内部</li>
+</ul>
+
+
+<p> <strong>引用类型</strong>
+ 三种引用</p>
+
+<ul>
+<li>类类型</li>
+<li>接口类型</li>
+<li>数组类型</li>
+</ul>
+
+
+<p> 还有一个特殊的null值</p>
+
+<p> <strong>取值范围</strong></p>
+
+<p> <img src="/images/jvm_runtime_base_type_value_range.png"></p></li>
+<li><p>装载class</p>
+
+<p> <strong>ClassLoader</strong></p>
+
+<ol>
+<li>findClass,loadClass</li>
+<li>defineClass</li>
+<li>resovleClass</li>
+</ol>
+
+
+<p> 具体见： <a href="http://driftice.github.io/blog/2013/07/22/jvm-security/">基本沙箱/类加载器(ClassLoader)</a></p></li>
+<li><p>方法区</p>
+
+<p> 存储加载的类型信息</p>
+
+<p> <img src="/images/jvm_runtime_type_info.png"></p>
+
+<p> <img src="/images/jvm_runtime_type_info_ref.png"></p></li>
+<li><p>堆</p>
+
+<p> 存储类实例和数组</p>
+
+<p> <strong>垃圾收集</strong></p>
+
+<p> 规范要求提供垃圾收集功能，但是不强求收集算法。</p>
+
+<p> <strong>对象的内部表示</strong></p>
+
+<p> 两种可选的模型：</p>
+
+<p> <img src="/images/jvm_runtime_object_arch.png"></p>
+
+<p> 一定是需要有一个类型信息的引用。因为：</p>
+
+<ol>
+<li>强制转型时需要检查；</li>
+<li>引用并不一定引用真正的类型信息，在动态绑定时查找需要。</li>
+</ol>
+
+
+<p> <strong>对象的特殊信息</strong></p>
+
+<ol>
+<li><p>方法表。用于加快方法访问。</p>
+
+<p> <img src="/images/jvm_runtime_object_method_area.png"></p></li>
+<li><p>锁及其wait Set</p>
+
+<p> 每一个对象都可以当做锁。但是，并不是每一个对象都会使用到，所以有可能把所有锁保存在以对象地址为索引的搜索树中。</p>
+
+<p> wait set也是同样的原理。</p></li>
+<li><p>垃圾收集标志</p>
+
+<p> 是否被回收了，是否调用finalizer方法等。</p></li>
+</ol>
+
+
+<p> <strong>数组对象的内部表示</strong></p>
+
+<p> 数据对象也是对象</p>
+
+<p> <img src="/images/jvm_runtime_object_array_arch.png"></p></li>
+<li><p>程序计数器（PC)</p>
+
+<ul>
+<li>每一线程都有独立的PC</li>
+<li>PC的长度为一个字(word).既可以保存一个引用，也可以保存一个returnAdress</li>
+<li>PC指向下一条指令的地址（可能是内存地址，也可能是相对偏移量），如果是本地方法，则为undefined</li>
+</ul>
+</li>
+<li><p>Java栈</p>
+
+<ul>
+<li>Java栈的基本单位是栈帧，只有两种操作，压栈跟出栈</li>
+<li>每一次方法调用都是一个栈帧。当前方法的栈帧称为<strong>当前帧</strong>，当前方法所属的类称为<strong>当前类</strong>，当前类的常量池称为<strong>当前常量池</strong></li>
+<li>每种方法返回（出栈），一个是return，一个是抛出异常</li>
+<li>栈数据是私有的，其他线程是无法访问的</li>
+</ul>
+</li>
+<li><p>栈帧</p>
+
+<p> 由三部分组成：</p>
+
+<ul>
+<li>局部变量区</li>
+<li>操作数栈区</li>
+<li>帧数据区</li>
+</ul>
+
+
+<p> 其中，局部变量区和操作数栈的大小在编译期已经确定。</p>
+
+<p> <strong>局部变量区</strong></p>
+
+<p> 局部变量是以字长为单位的数组，包括了<em>方法实参</em>和运行过程中的<em>局部变量</em>。每一个基本类型（long跟double除外）和引用占一个字，而long和double占用两个字</p>
+
+<p> <img src="/images/jvm_runtime_java_stack_local_var.png"></p>
+
+<p> 左边是一个类方法，而右边是一个实例方法。实例方法的第一个变量是对自身的引用。</p>
+
+<p> <strong>操作数栈区</strong></p>
+
+<p> 操作数栈也是以字长为单位的栈，用于存储字节码执行过程的参数、结果等。两个数的相加过程：</p>
+
+<p> <img src="/images/jvm_runtime_java_stack_opt_stack.png"></p>
+
+<p> <img src="/images/jvm_runtime_java_stack_opt_stack2.png"></p>
+
+<p> <strong>帧数据区</strong></p>
+
+<p> 用于支持常量池解析、正常方法返回、异常派发及其他一些任务。</p>
+
+<ul>
+<li><p>常量池解析</p>
+
+<p>  例子：</p>
+
+<p>  ```
+  public class Main {
+      private final static int n = 3;</p>
+
+<pre><code>  public static void main(String[] args) {
+      int a = n + 1;
+  }
+</code></pre>
+
+<p>  }
+  ```</p>
+
+<p>  常量池为：</p>
+
+<p>  <code>
+  Constant pool:
+  #1 = Class              #2             //  com/troy/Main
+  #2 = Utf8               com/troy/Main
+  #3 = Class              #4             //  java/lang/Object
+  #4 = Utf8               java/lang/Object
+  #5 = Utf8               n
+  #6 = Utf8               I
+  #7 = Utf8               ConstantValue
+  #8 = Integer            3
+  #9 = Utf8               &lt;init&gt;
+  #10 = Utf8               ()V
+  #11 = Utf8               Code
+  #12 = Methodref          #3.#13         //  java/lang/Object."&lt;init&gt;":()V
+  #13 = NameAndType        #9:#10         //  "&lt;init&gt;":()V
+  #14 = Utf8               LineNumberTable
+  #15 = Utf8               LocalVariableTable
+  #16 = Utf8               this
+  #17 = Utf8               Lcom/troy/Main;
+  #18 = Utf8               main
+  #19 = Utf8               ([Ljava/lang/String;)V
+  #20 = Utf8               args
+  #21 = Utf8               [Ljava/lang/String;
+  #22 = Utf8               a
+  #23 = Utf8               SourceFile
+  #24 = Utf8               Main.java
+ </code></p></li>
+<li><p>正常方法返回</p>
+
+<p>  当return时，需要出栈，并将PC设置被调用方法的指令，并将返回值压入栈（如果有返回值）</p></li>
+<li><p>异常派发</p>
+
+<p>  方法基本信息会保存一个异常表，表示每一个catch保护的范围。当异常发生的时候，需要查找此表，看是否有合适的处理(catch代码)，如果没有，则出栈，并在当前栈执行同样的判断。</p></li>
+<li><p>其他任务</p>
+
+<p>  比如调试信息（行号等）</p></li>
+</ul>
+
+
+<p> <strong>栈帧的可能实现方式</strong></p>
+
+<ul>
+<li>每一个栈帧都是独立的内存空间</li>
+<li><p>相邻两个栈帧间交叠一部分区域。将前一个栈帧的操作数栈区的栈顶作为下一个栈帧的局部变量区的起始。如：</p>
+
+<p>  <img src="/images/jvm_runtime_java_stack_impl.png"></p></li>
+</ul>
+</li>
+</ol>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[JVM网络移动性-笔记]]></title>
@@ -311,12 +564,9 @@ if (security != null) {
 <p><strong>STEP 1</strong> 打开 wall 工程的 com.wall.main.Test，修改这两个路径</p>
 
 <p><code>
-String testClasspath = "file:/C:/troy/java_workspace/wallTest/bin/"; //
-String problemDir = "C:\\troy\\java_workspace\\wall\\problems";  //
+String testClasspath = "file:/C:/troy/java_workspace/wallTest/bin/"; // wallTest工程的路径
+String problemDir = "C:\\troy\\java_workspace\\wall\\problems";  // wall工程下的problems文件夹路径
 </code></p>
-
-<p>testClasspath为wallTest工程的路径
-problemDir为wall工程下的problems文件夹路径</p>
 
 <p><strong>STEP 2</strong> 运行Test， jvm 参数:</p>
 
