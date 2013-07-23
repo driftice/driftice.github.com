@@ -4,7 +4,7 @@
   <title><![CDATA[Category: jvm | 路边飞的博客]]></title>
   <link href="http://driftice.github.io/blog/categories/jvm/atom.xml" rel="self"/>
   <link href="http://driftice.github.io/"/>
-  <updated>2013-07-23T13:33:39+08:00</updated>
+  <updated>2013-07-23T14:35:51+08:00</updated>
   <id>http://driftice.github.io/</id>
   <author>
     <name><![CDATA[路边飞]]></name>
@@ -186,7 +186,7 @@ Java方法就是纯Java实现的方法，是平台无关的</p>
 
 <p>Java API是运行库的集合，是Java平台都要实现的必要部分，可以安全地假设可以被获取到。在需要与主机资源打交道的时候，Java可以调用Java API来实现，从而避免平台相关。</p>
 
-<p><img src="/images/jvm_Java_api_instr.png"></p>
+<p><img src="/images/jvm_java_api_instr.png"></p>
 
 <h2>Java程序设计语言</h2>
 
