@@ -155,7 +155,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2013/07/22/jvm-independence/">JVM平台无关性-笔记</a></h1>
+      <h1 class="entry-title"><a href="/blog/2013/07/22/jvm-security/">JVM安全-笔记</a></h1>
     
     
       <p class="meta">
@@ -171,227 +171,9 @@
   
 
 
-<time datetime="2013-07-22T15:17:00+08:00" pubdate data-updated="true">Jul 22<span>nd</span>, 2013</time>
+<time datetime="2013-07-22T16:00:00+08:00" pubdate data-updated="true">Jul 22<span>nd</span>, 2013</time>
         
-         | <a href="/blog/2013/07/22/jvm-independence/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>为什么需要平台无关性？</h2>
-
-<ol>
-<li>设备多样化，可以不加修改地运行。</li>
-<li>设备连网化，平台无关性，使得不同平台之间可以无缝地交换对象。比如，使用JINI技术</li>
-<li>减少针对多平台开发的难度和工作量。</li>
-</ol>
-
-
-<h2>对平台无关性的支持</h2>
-
-<ol>
-<li><p>Java平台</p>
-
-<p>  扮演着Java程序跟操作系统的缓冲角色，使得程序无需直接跟特定平台打交道</p></li>
-<li><p>Java语言</p>
-
-<p> 基本类型的值域跟行为都是自己的规范，跟平台无关</p></li>
-<li><p>class文件</p>
-
-<p> 特定于JVM的二进制格式，与平台无关，如字节序等</p></li>
-<li><p>可伸缩性</p>
-
-<p> Java平台可在不同的设备上实现，包括PC、嵌入式设备等。可根据不同的设备进行适当的裁剪，但要符合规范定义的功能子集。</p></li>
-</ol>
-
-
-<h2>影响平台无关性的因素</h2>
-
-<ol>
-<li><p>Java平台的部署</p>
-
-<p> 目标平台是否有相关的Java平台实现</p></li>
-<li><p>Java平台的版本</p>
-
-<ul>
-<li>各版本间的兼容性问题</li>
-<li>不同的功能子集的问题</li>
-<li>不同厂商针对特定平台的扩展功能问题</li>
-</ul>
-</li>
-<li><p>本地方法</p></li>
-<li>非标准运行时库</li>
-<li>对JVM行为的依赖
-
-<ul>
-<li>不要依赖对象的finalization行为</li>
-<li>不要依赖线程优先级</li>
-</ul>
-</li>
-<li>对用户界面的依赖</li>
-<li>Java平台的Bug
- 如果目标平台集中有一个实现有Bug，会导致其他平台此功能不可使用。需要多测试。</li>
-</ol>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/07/22/jvm-introduction/">JVM体系结构介绍-笔记</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-07-22T14:21:00+08:00" pubdate data-updated="true">Jul 22<span>nd</span>, 2013</time>
-        
-         | <a href="/blog/2013/07/22/jvm-introduction/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>为什么使用Java?</h2>
-
-<p>网络化大潮，Java是为网络而设计。<strong>安全性</strong>、<strong>网络移动性</strong>及<strong>平台无关性</strong>都是围绕这个目标设计。</p>
-
-<h2>体系结构</h2>
-
-<p>四个独立但是相关的技术：</p>
-
-<ul>
-<li>Java程序设计语言</li>
-<li>Java class文件格式</li>
-<li>Java应用编程接口(API)</li>
-<li>Java虚拟机</li>
-</ul>
-
-
-<h2>Java虚拟机</h2>
-
-<p>Java虚拟机的主要任务是装载class文件，并且执行其中的代码。</p>
-
-<p><img src="/images/jvm_architecture_intro.png"></p>
-
-<p><strong>不同的虚拟机，可能有不同的执行引擎</strong></p>
-
-<ul>
-<li>直接解释字节码。</li>
-<li>即时编译。全部转换成本地代码）</li>
-<li>自适应编译。把最频繁的10-20%代码编译成本地代码。</li>
-<li>硬件芯片编译。</li>
-</ul>
-
-
-<p><strong>本地方法与Java方法</strong></p>
-
-<p>本地方法(JNI)用于与操作系统打交道，是平台相关的
-Java方法就是纯Java实现的方法，是平台无关的</p>
-
-<p><strong>ClassLoader</strong></p>
-
-<p>解决的是安全性（隔离性）与网络移动性（动态加载class).分为两类：一类是JVM的系统加载器，称为<strong>bootstrap classloader</strong>，另一个类是用户自定义的加载器</p>
-
-<h2>Java class文件</h2>
-
-<p>在平台无关性、网络移动性更适应网络</p>
-
-<ol>
-<li>平台无关性
- 独立于底层主机的二进制形式。以<strong>以字节码</strong>的形式，避免编译时与特定系统绑定。</li>
-<li>网络移动性
-
-<ul>
-<li>更紧凑的格式</li>
-<li>动态连接（使用时才加载）</li>
-<li>动态扩展（可动态增加class)</li>
-</ul>
-</li>
-</ol>
-
-
-<h2>Java API</h2>
-
-<p>Java API是运行库的集合，是Java平台都要实现的必要部分，可以安全地假设可以被获取到。在需要与主机资源打交道的时候，Java可以调用Java API来实现，从而避免平台相关。</p>
-
-<p><img src="/images/jvm_java_api_instr.png"></p>
-
-<h2>Java程序设计语言</h2>
-
-<p>一门通用语言，并不局限与网络相关的领域。其核心思想是使得程序员更有效率，程序更加健壮，而且在于为新兴的网络为中心的计算环境提供一个工具。</p>
-
-<ul>
-<li>面向对象</li>
-<li>多线程</li>
-<li>结构化错误处理</li>
-<li>垃圾收集</li>
-<li>动态连接</li>
-<li>动态扩展</li>
-</ul>
-
-
-<p>缺点：</p>
-
-<ol>
-<li>性能的问题</li>
-<li>内存管理。回收的不确定性。</li>
-<li>线程调度。过于宽松的线程规范，可能导致不同平台的调度方式不同。</li>
-<li>功能的最小公分母问题。这是为实现跨平台的必然困难。</li>
-<li>易于反编译。这是由于为了实现动态连接性，一个类对另一个类的引用是符号引用，而不是指针或偏移量。所以，被引用的类的方法，字段等，需要详细描述。使得反编译变得容易。混淆器可以减轻这个问题。</li>
-</ol>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/07/16/jvm-security/">JVM安全-笔记</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-07-16T10:21:00+08:00" pubdate data-updated="true">Jul 16<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/07/16/jvm-security/#disqus_thread">Comments</a>
+         | <a href="/blog/2013/07/22/jvm-security/#disqus_thread">Comments</a>
         
       </p>
     
@@ -626,7 +408,7 @@ if (security != null) {
 </ol>
 
 
-<h1>目前的不足</h1>
+<h2>目前的不足</h2>
 
 <ol>
 <li><p>不能应付以下两种情况：</p>
@@ -637,6 +419,249 @@ if (security != null) {
 </ul>
 </li>
 <li><p>没有跟系统用户集成</p></li>
+</ol>
+
+
+<h2>基于此章写的示例:一个类似于ACM竞赛的判题系统</h2>
+
+<p><a href="/assets/judge.rar">判题系统</a></p>
+
+<p>简单的实现，包括沙箱跟题目判定，目前没有限内存，也没有严格取得内存的使用量</p>
+
+<p><strong>STEP 1</strong> 打开 wall 工程的 com.wall.main.Test，修改这两个路径</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>String testClasspath = "file:/C:/troy/java_workspace/wallTest/bin/"; // 
+</span><span class='line'>String problemDir = "C:\\troy\\java_workspace\\wall\\problems";  // </span></code></pre></td></tr></table></div></figure>
+
+
+<p>testClasspath为wallTest工程的路径
+problemDir为wall工程下的problems文件夹路径</p>
+
+<p><strong>STEP 2</strong> 运行Test， jvm 参数:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>java -Djava.security.manager -Djava.security.policy=C:\troy\java_workspace\wall\bin\policy.txt com.wall.main.Test</span></code></pre></td></tr></table></div></figure>
+
+
+<p>java.security.policy 为 wall工程下的policy文件的路径</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/07/22/jvm-independence/">JVM平台无关性-笔记</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-22T15:17:00+08:00" pubdate data-updated="true">Jul 22<span>nd</span>, 2013</time>
+        
+         | <a href="/blog/2013/07/22/jvm-independence/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>为什么需要平台无关性？</h2>
+
+<ol>
+<li>设备多样化，可以不加修改地运行。</li>
+<li>设备连网化，平台无关性，使得不同平台之间可以无缝地交换对象。比如，使用JINI技术</li>
+<li>减少针对多平台开发的难度和工作量。</li>
+</ol>
+
+
+<h2>对平台无关性的支持</h2>
+
+<ol>
+<li><p>Java平台</p>
+
+<p>  扮演着Java程序跟操作系统的缓冲角色，使得程序无需直接跟特定平台打交道</p></li>
+<li><p>Java语言</p>
+
+<p> 基本类型的值域跟行为都是自己的规范，跟平台无关</p></li>
+<li><p>class文件</p>
+
+<p> 特定于JVM的二进制格式，与平台无关，如字节序等</p></li>
+<li><p>可伸缩性</p>
+
+<p> Java平台可在不同的设备上实现，包括PC、嵌入式设备等。可根据不同的设备进行适当的裁剪，但要符合规范定义的功能子集。</p></li>
+</ol>
+
+
+<h2>影响平台无关性的因素</h2>
+
+<ol>
+<li><p>Java平台的部署</p>
+
+<p> 目标平台是否有相关的Java平台实现</p></li>
+<li><p>Java平台的版本</p>
+
+<ul>
+<li>各版本间的兼容性问题</li>
+<li>不同的功能子集的问题</li>
+<li>不同厂商针对特定平台的扩展功能问题</li>
+</ul>
+</li>
+<li><p>本地方法</p></li>
+<li>非标准运行时库</li>
+<li>对JVM行为的依赖
+
+<ul>
+<li>不要依赖对象的finalization行为</li>
+<li>不要依赖线程优先级</li>
+</ul>
+</li>
+<li>对用户界面的依赖</li>
+<li>Java平台的Bug
+ 如果目标平台集中有一个实现有Bug，会导致其他平台此功能不可使用。需要多测试。</li>
+</ol>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/07/22/jvm-introduction/">JVM体系结构介绍-笔记</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-22T14:21:00+08:00" pubdate data-updated="true">Jul 22<span>nd</span>, 2013</time>
+        
+         | <a href="/blog/2013/07/22/jvm-introduction/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>为什么使用Java?</h2>
+
+<p>网络化大潮，Java是为网络而设计。<strong>安全性</strong>、<strong>网络移动性</strong>及<strong>平台无关性</strong>都是围绕这个目标设计。</p>
+
+<h2>体系结构</h2>
+
+<p>四个独立但是相关的技术：</p>
+
+<ul>
+<li>Java程序设计语言</li>
+<li>Java class文件格式</li>
+<li>Java应用编程接口(API)</li>
+<li>Java虚拟机</li>
+</ul>
+
+
+<h2>Java虚拟机</h2>
+
+<p>Java虚拟机的主要任务是装载class文件，并且执行其中的代码。</p>
+
+<p><img src="/images/jvm_architecture_intro.png"></p>
+
+<p><strong>不同的虚拟机，可能有不同的执行引擎</strong></p>
+
+<ul>
+<li>直接解释字节码。</li>
+<li>即时编译。全部转换成本地代码）</li>
+<li>自适应编译。把最频繁的10-20%代码编译成本地代码。</li>
+<li>硬件芯片编译。</li>
+</ul>
+
+
+<p><strong>本地方法与Java方法</strong></p>
+
+<p>本地方法(JNI)用于与操作系统打交道，是平台相关的
+Java方法就是纯Java实现的方法，是平台无关的</p>
+
+<p><strong>ClassLoader</strong></p>
+
+<p>解决的是安全性（隔离性）与网络移动性（动态加载class).分为两类：一类是JVM的系统加载器，称为<strong>bootstrap classloader</strong>，另一个类是用户自定义的加载器</p>
+
+<h2>Java class文件</h2>
+
+<p>在平台无关性、网络移动性更适应网络</p>
+
+<ol>
+<li>平台无关性
+ 独立于底层主机的二进制形式。以<strong>以字节码</strong>的形式，避免编译时与特定系统绑定。</li>
+<li>网络移动性
+
+<ul>
+<li>更紧凑的格式</li>
+<li>动态连接（使用时才加载）</li>
+<li>动态扩展（可动态增加class)</li>
+</ul>
+</li>
+</ol>
+
+
+<h2>Java API</h2>
+
+<p>Java API是运行库的集合，是Java平台都要实现的必要部分，可以安全地假设可以被获取到。在需要与主机资源打交道的时候，Java可以调用Java API来实现，从而避免平台相关。</p>
+
+<p><img src="/images/jvm_java_api_instr.png"></p>
+
+<h2>Java程序设计语言</h2>
+
+<p>一门通用语言，并不局限与网络相关的领域。其核心思想是使得程序员更有效率，程序更加健壮，而且在于为新兴的网络为中心的计算环境提供一个工具。</p>
+
+<ul>
+<li>面向对象</li>
+<li>多线程</li>
+<li>结构化错误处理</li>
+<li>垃圾收集</li>
+<li>动态连接</li>
+<li>动态扩展</li>
+</ul>
+
+
+<p>缺点：</p>
+
+<ol>
+<li>性能的问题</li>
+<li>内存管理。回收的不确定性。</li>
+<li>线程调度。过于宽松的线程规范，可能导致不同平台的调度方式不同。</li>
+<li>功能的最小公分母问题。这是为实现跨平台的必然困难。</li>
+<li>易于反编译。这是由于为了实现动态连接性，一个类对另一个类的引用是符号引用，而不是指针或偏移量。所以，被引用的类的方法，字段等，需要详细描述。使得反编译变得容易。混淆器可以减轻这个问题。</li>
 </ol>
 
 </div>
@@ -1048,15 +1073,15 @@ if (security != null) {
       </li>
     
       <li class="post">
+        <a href="/blog/2013/07/22/jvm-security/">JVM安全-笔记</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/07/22/jvm-independence/">JVM平台无关性-笔记</a>
       </li>
     
       <li class="post">
         <a href="/blog/2013/07/22/jvm-introduction/">JVM体系结构介绍-笔记</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/07/16/jvm-security/">JVM安全-笔记</a>
       </li>
     
       <li class="post">
