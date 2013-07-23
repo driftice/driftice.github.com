@@ -4,7 +4,7 @@
   <title><![CDATA[Category: jvm | 路边飞的博客]]></title>
   <link href="http://driftice.github.io/blog/categories/jvm/atom.xml" rel="self"/>
   <link href="http://driftice.github.io/"/>
-  <updated>2013-07-22T17:48:45+08:00</updated>
+  <updated>2013-07-23T13:33:39+08:00</updated>
   <id>http://driftice.github.io/</id>
   <author>
     <name><![CDATA[路边飞]]></name>
@@ -41,9 +41,12 @@
 <li><p>applet</p></li>
 <li><p>JINI</p>
 
-<p> 技术：　服务注册中心　+　　对象序列化　+　RMI
- 角色：　查找服务　＋　服务提供者　＋　客户机
- 协议：　网络协议（探索）　＋　对象协议（加入、查找）</p></li>
+<ul>
+<li>技术：　服务注册中心　+　　对象序列化　+　RMI</li>
+<li>角色：　查找服务　＋　服务提供者　＋　客户机</li>
+<li>协议：　网络协议（探索）　＋　对象协议（加入、查找）</li>
+</ul>
+</li>
 <li><p>代码与对象的网络移动性是Java的<strong>设计中心</strong></p>
 
 <p> 安全性 和 平台无关性 很多程度上为这上目标服务的。</p></li>

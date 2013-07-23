@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: 其他 | 路边飞的博客]]></title>
-  <link href="http://driftice.github.io/blog/categories/qi-ta/atom.xml" rel="self"/>
+  <title><![CDATA[Category: others | 路边飞的博客]]></title>
+  <link href="http://driftice.github.io/blog/categories/others/atom.xml" rel="self"/>
   <link href="http://driftice.github.io/"/>
-  <updated>2013-07-22T17:48:45+08:00</updated>
+  <updated>2013-07-23T13:33:39+08:00</updated>
   <id>http://driftice.github.io/</id>
   <author>
     <name><![CDATA[路边飞]]></name>
