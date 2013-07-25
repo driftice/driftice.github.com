@@ -4,7 +4,7 @@
   <title><![CDATA[Category: jvm | 路边飞的博客]]></title>
   <link href="http://driftice.github.io/blog/categories/jvm/atom.xml" rel="self"/>
   <link href="http://driftice.github.io/"/>
-  <updated>2013-07-23T18:16:59+08:00</updated>
+  <updated>2013-07-25T15:24:52+08:00</updated>
   <id>http://driftice.github.io/</id>
   <author>
     <name><![CDATA[路边飞]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[JVM虚拟机-笔记-part1]]></title>
+    <title type="html"><![CDATA[JVM虚拟机-笔记]]></title>
     <link href="http://driftice.github.io/blog/2013/07/23/jvm-jvm/"/>
     <updated>2013-07-23T15:22:00+08:00</updated>
     <id>http://driftice.github.io/blog/2013/07/23/jvm-jvm</id>
@@ -34,6 +34,8 @@
 <p>从main()函数开始，当所以非守护进程退出，或System.exit()时结束</p>
 
 <h2>体系结构</h2>
+
+<p>需要先明确： JVM规范定义的子系统、运行时数据区等，都只是一个抽象定义，只要能满足这些外部的行为，内部的具体实现完全可以由设计者决定。</p>
 
 <ol>
 <li><p>系统运行时结构</p>
@@ -66,8 +68,9 @@
 </ul>
 
 
-<p> <strong>引用类型</strong>
- 三种引用</p>
+<p> <strong>引用类型</strong></p>
+
+<p> 三种引用</p>
 
 <ul>
 <li>类类型</li>
@@ -199,22 +202,18 @@
 
 <p>  例子：</p>
 
-<p>  ```
-  public class Main {
-      private final static int n = 3;</p>
+<pre><code>  public class Main {
+      private final static int n = 3;
 
-<pre><code>  public static void main(String[] args) {
-      int a = n + 1;
+      public static void main(String[] args) {
+          int a = n + 1;
+      }
   }
 </code></pre>
 
-<p>  }
-  ```</p>
-
 <p>  常量池为：</p>
 
-<p>  <code>
-  Constant pool:
+<pre><code>  Constant pool:
   #1 = Class              #2             //  com/troy/Main
   #2 = Utf8               com/troy/Main
   #3 = Class              #4             //  java/lang/Object
@@ -239,7 +238,7 @@
   #22 = Utf8               a
   #23 = Utf8               SourceFile
   #24 = Utf8               Main.java
- </code></p></li>
+</code></pre></li>
 <li><p>正常方法返回</p>
 
 <p>  当return时，需要出栈，并将PC设置被调用方法的指令，并将返回值压入栈（如果有返回值）</p></li>
@@ -259,6 +258,114 @@
 <li><p>相邻两个栈帧间交叠一部分区域。将前一个栈帧的操作数栈区的栈顶作为下一个栈帧的局部变量区的起始。如：</p>
 
 <p>  <img src="/images/jvm_runtime_java_stack_impl.png"></p></li>
+</ul>
+</li>
+<li><p>本地方法栈</p>
+
+<p>当线程调用本地方法的时候，就进入一个不受虚拟控制的世界。本地方法本质上是依赖于实现的，虚拟机设计者可以自由地决定Java如何调用本地方法。</p>
+
+<p>一个C模型的例子：</p>
+
+<p><img src="/images/jvm_runtime_native_method.png"></p>
+
+<p>对于本地方法的要求：</p>
+
+<p><img src="/images/jvm_runtime_native_method_req.png"></p></li>
+<li><p>执行引擎</p>
+
+<p>执行引擎是JVM的核心，系统的行为就是由它执行字节码流决定的。每一个用户线程其实都是一个执行引擎实例（垃圾收集线程等系统线程不一定）。</p>
+
+<p><strong>指令集</strong></p>
+
+<p>指令=操作码 + 0到多个操作数 ， 一个操作码一个字的长度。操作数可以来自常量池、操作数栈以及局部变量表。</p>
+
+<p>例子：</p>
+
+<pre><code>public class Main {
+    private int m = 0;
+
+    public void test() {
+        m++;
+
+        int i=0;
+        for(int j=0;j&lt;10;j++){
+            i++;
+        }
+    }
+}
+</code></pre>
+
+<p>编译后的test方法的字节码：</p>
+
+<pre><code> Code:
+   stack=3, locals=3, args_size=1
+      0: aload_0
+      1: dup
+      2: getfield      #12                 // Field m:I
+      5: iconst_1
+      6: iadd
+      7: putfield      #12                 // Field m:I
+     10: iconst_0
+     11: istore_1
+     12: iconst_0
+     13: istore_2
+     14: goto          23
+     17: iinc          1, 1
+     20: iinc          2, 1
+     23: iload_2
+     24: bipush        10
+     26: if_icmplt     17
+     29: return
+</code></pre>
+
+<ul>
+<li><em>iconst_0</em> 的操作数是0，它是往栈顶添加常量0</li>
+<li><em>getfield #12</em> 的操作数是常量池的符号</li>
+<li><em>iinc</em> 的操作数是局部变量</li>
+<li><em>iadd</em> 的操作是1，是取栈顶的数+1，并且再压回栈顶。</li>
+</ul>
+
+
+<p><strong>影响指令集设计的几个方面</strong></p>
+
+<ul>
+<li>为了达到平台无关性，指令集的设计是以栈为中心的，大部分指令的操作数都是基于操作数栈的，而局部变量通常被视为类似于寄存器，而常量池主要是存储的一些符号。</li>
+<li><p>以栈为中心还有另一个目的是（<strong>没看懂。。。</strong>*)</p>
+
+<p>  <img src="/images/jvm_runtime_execute_engine_opcodes_principle.png"></p></li>
+<li><p>字节码的紧凑性。但是严格的字节对齐，牺牲了一些优化的可能性。</p></li>
+<li>字节码的可验证性。为了安全，在加载的class的时候，需要进行字节码验证。为了更好的支持这个过程，相当部分指令需要指明指令的类型（方便校验），比如store操作，对于int是istore，对于float是fstore，虽然它们的动作是一模一样，甚至可能实现也是一样的。</li>
+</ul>
+
+
+<p><strong>决定下一条指令的三种可能</strong></p>
+
+<ul>
+<li>紧跟在当前字节码后的下一条字节码</li>
+<li>goto 或 return 指令</li>
+<li>抛出异常时，需要检查异常表，决定是处理还是抛出</li>
+</ul>
+
+
+<p><strong>执行技术</strong></p>
+
+<ul>
+<li>直接解释字节码。</li>
+<li>即时编译。全部转换成本地代码）</li>
+<li>自适应编译。把最频繁的10-20%代码编译成本地代码。</li>
+<li>硬件芯片编译。</li>
+</ul>
+
+
+<p><strong>线程</strong></p>
+
+<p>Java定义了线程模型，目标是希望可以在不同的体系结构上实现它。</p>
+
+<ul>
+<li>线程的优先级是非常宽松的，可能对应本地的线程级别，也可以是另外的实现。优先级仅仅是表示这种时间片分配的期望，而非一个严格的标准。</li>
+<li>线程必须支持同步的两个方面： <em>对象锁定</em> 以及 <em>线程等待与通知</em></li>
+<li>线程的对于基本类型的操作必须是原子性的，除了非volatile的double和long（因为它们占了两个字，所以有可能是两步操作）</li>
+<li>等等</li>
 </ul>
 </li>
 </ol>
