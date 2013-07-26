@@ -4,7 +4,7 @@
   <title><![CDATA[路边飞的博客]]></title>
   <link href="http://driftice.github.io/atom.xml" rel="self"/>
   <link href="http://driftice.github.io/"/>
-  <updated>2013-07-25T15:53:56+08:00</updated>
+  <updated>2013-07-26T17:11:43+08:00</updated>
   <id>http://driftice.github.io/</id>
   <author>
     <name><![CDATA[路边飞]]></name>
@@ -12,6 +12,29 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[JVM Class文件-笔记]]></title>
+    <link href="http://driftice.github.io/blog/2013/07/25/jvm-class-file/"/>
+    <updated>2013-07-25T16:55:00+08:00</updated>
+    <id>http://driftice.github.io/blog/2013/07/25/jvm-class-file</id>
+    <content type="html"><![CDATA[<h2>class file规范</h2>
+
+<p><a href="file:///C:/troy/data/java/vmspec/ClassFile.doc.html">class file规范</a></p>
+
+<h2>class 解析实现</h2>
+
+<p>简单实现，基本都有了，但是不完全，一些Attribute懒得实现，比如InnerClass，可根据需要自己添加</p>
+
+<p><a href="http://driftice.github.io/assets/troy_jd.rar">下载Class解析器</a></p>
+
+<p>或者</p>
+
+<p><a href="https://github.com/driftice/troy_jd">fork from github</a></p>
+
+<p>修改Test的文件路径，运行即可</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[JVM虚拟机-笔记]]></title>
