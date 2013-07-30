@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: java | 路边飞的博客]]></title>
+  <link href="http://driftice.github.io/blog/categories/java/atom.xml" rel="self"/>
+  <link href="http://driftice.github.io/"/>
+  <updated>2013-07-30T10:15:03+08:00</updated>
+  <id>http://driftice.github.io/</id>
+  <author>
+    <name><![CDATA[路边飞]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[JAVA并发编程实践-笔记（未完成）]]></title>
+    <link href="http://driftice.github.io/blog/2013/07/30/java-thread-concurrent-practice/"/>
+    <updated>2013-07-30T10:12:00+08:00</updated>
+    <id>http://driftice.github.io/blog/2013/07/30/java-thread-concurrent-practice</id>
+    <content type="html"><![CDATA[<ol>
+<li>介绍
+
+<ol>
+<li>线程的优点
+
+<ol>
+<li>使用多处理器。这是多核的时代。</li>
+<li>模型的简化。有些应用模型就是需要并发处理，如servlet，一个内置的多线程功能，可以很好的匹配这种模型，并且不需要考虑诸如任务的创建、切换、负载均衡等细节问题。</li>
+<li>对异步事件的简单处理。单线程环境下，对于一些可以导致阻塞的任务，如socke.read，需要使用异步事件的机制，这使得实现起来复杂得多。而多线程很多时候可以解决这类问题。</li>
+<li>没有多线程的GUI，容易由于某一个事件完成时间长，而导致界面冻洁。</li>
+</ol>
+</li>
+<li>线程的风险
+
+<ol>
+<li>安全风险。 并发处理共享变量时，容易导致意外的执行结果。</li>
+<li>活跃度的危险。 死锁、饥饿、活锁等。</li>
+<li>性能危险。 上下文切换导致的性能开销。</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p>基础</p>
+
+<ol>
+<li><p>线程安全。</p>
+
+<ol>
+<li><p>线程安全，关键在于“正确性”，这意味着一个类<strong>与它的规约保持一致</strong>，通常可简单认为在多线程环境下不会比单线程环境下有更多的隐患。</p></li>
+<li><p>线程安全的代码本质就是：</p>
+
+<blockquote><p>管理对状态的访问，并且通常是共享的、可变的状态。<br>
+一个对象的状态就是它的数据，包含了任何会对它的外部可见行为产生影响的数据。<br>
+共享是指一个变量可以被多个线程访问。<br>
+可变是指其生命周期内可以被改变。<br></p></blockquote></li>
+<li><p>当多线程访问一个类时，如果不用考虑这些线程在运行环境下的调度和交替执行，并且不需要额外的同步及调用方代码不必作其他的协调，这个类的行为仍然正确的，那么称这个类是<strong>线程安全</strong>的</p></li>
+<li><p>无论何时，只要多于一个线程访问给定的状态变量，而且其中某个线程会写入该变量，此时必须使用同步来协调线程对变量的访问。</p></li>
+</ol>
+</li>
+<li><p>原子性</p>
+
+<ol>
+<li>竞争条件(race codition)
+
+<ol>
+<li>当正常性依赖于运行时的时序时，会产生竞争条件</li>
+<li>常见：读-改-写 (read-modify-write)，检查-运行（check-then-act)</li>
+<li>如 单例的LazyInit</li>
+<li>ref:数据竞争(data race)</li>
+</ol>
+</li>
+<li>锁
+
+<blockquote><p>为了保护状态的一致性，要在单一的原子操作中更新相互关联的状态变量</p></blockquote>
+
+<ol>
+<li>内部锁 ssynchronized ，每一个java对象都可以当作一个内部锁(intrinsic lock)，或监控器锁(monitor lock)</li>
+<li>重入锁(reentryncy)
+
+<ol>
+<li>是per-thread 而非 per-invocation。 通过记录<strong>计数器</strong>和<strong>占用线程</strong>实现</li>
+</ol>
+</li>
+<li>锁策略
+
+<ol>
+<li><p>每个共享的可变变量都需要由唯一一个确定的锁保护，而维护者应用清楚这个锁。</p></li>
+<li><p>对于每一个涉及多个变量的不变约束，需要同一个锁保护其所有的变量</p></li>
+</ol>
+</li>
+</ol>
+</li>
+<li>活跃度与性能
+
+<ol>
+<li><p>通常简单性与性能之间是互联牵制的。实现一个同步策略时，不要过早地为了性能而牺牲简单性。</p></li>
+<li><p>有些耗时的计算或操作，比如网络或控制台I/O，难以快速完成，执行这些操作期间，不要占用锁。</p></li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p>共享对象</p>
+
+<ol>
+<li>可见性。
+
+<ol>
+<li>重排序。在单个线程里，只要重排序对结果不会产生影响，那么不能保证程序按写定的顺序执行。这是为了更好的利用CPU的性能。 但是多线程环境下，确可能产生不良影响。</li>
+<li><p>只要数据被跨线程共享，就进行恰当的同步</p></li>
+<li><p>过期数据</p></li>
+<li><p>非原子的64位操作。 64位数据，double和long是非原子的，jvm允许将其读或写划分为两个32位操作。所以有可能出现读的一值的高32位和另一个值的低32位。因而，一般作为共享变量时，申请为volatile或用锁保护起来民，以保证其可见性。</p></li>
+<li><p>volatile。保证可见性，并且不会被重排序。</p>
+
+<blockquote><p>用于确保它们所引用的对象状态的可见性，或者用于标识重要的生命周期事件的发生。</p></blockquote></li>
+</ol>
+</li>
+<li><p>发布和逸出</p>
+
+<ol>
+<li><strong>发布</strong> 一个对象的意思是使它能被当前范围之外的代码所引用</li>
+<li><strong>逸出</strong> 是指一个对象在尚未准备好的时候就将它发布</li>
+</ol>
+</li>
+<li><p>线程封闭。</p>
+
+<ol>
+<li>将对象封闭在某一个线程，如ThreadLocal或JDBC线程池Connect</li>
+<li>ad-hoc</li>
+<li>栈限制</li>
+<li>ThreadLocal</li>
+</ol>
+</li>
+<li><p>不可变性</p>
+
+<ol>
+<li>不可变对象总是线程安全的</li>
+<li>final域。 保证域值的不可为，并且保证初始化安全性。</li>
+<li>满足以下条件，才是不可变：
+
+<ul>
+<li>它的状态不能在创建后再被修改</li>
+<li>所有域都是final类型，并且</li>
+<li>它被正确创建（创建期间没有发生this引用逸出)</li>
+</ul>
+</li>
+</ol>
+</li>
+<li><p>安全发布</p>
+
+<ol>
+<li>一个正确创建的对象可以通过以下条件安全地发布：
+
+<ol>
+<li>通过静态初始化器初始化对象的引用</li>
+<li>将它的引用存储到volatile域或AtomicReference</li>
+<li>将它的引用存储到正确创建的对象的final域中</li>
+<li>或者将它的引用存储到由锁正确保护的域中</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+
+
+<p> 3.组合对象</p>
+
+<pre><code> 1. 不变约束，后验条件，先验条件
+ 2. 不理解对象的**不变约束**和**后验条件**，你就不能保证线程安全，要约束状态变量的有效或者状态转换，就需要原子性与封闭性。
+</code></pre></li>
+<li><p>构建并发应用程序</p></li>
+<li>活跃度、性能和测试</li>
+<li>高级主题</li>
+</ol>
+
+
+<h2>复述</h2>
+
+<ol>
+<li>一句话：</li>
+</ol>
+
+
+<blockquote><p>这是以javaSE5、6为原型讲并发编程的原理和实践的书</p></blockquote>
+]]></content>
+  </entry>
+  
+</feed>
